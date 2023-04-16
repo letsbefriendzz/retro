@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('retro_users', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable(false);
             $table->bigInteger('retro_session_id')->nullable(false);
             $table->foreign('retro_session_id')->references('id')->on('retro_sessions');
             $table->timestamps();

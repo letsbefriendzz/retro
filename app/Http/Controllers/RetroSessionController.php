@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RetroSession;
+use App\Models\RetroUser;
 use Illuminate\Http\JsonResponse;
 
 class RetroSessionController extends Controller
@@ -12,6 +13,14 @@ class RetroSessionController extends Controller
         $retroSession = RetroSession::query()->create([
             'slug' => $sessionSlug,
         ]);
-        return response()->json(['retroSession' => $retroSession]);
+
+        $retroUser = RetroUser::factory()->create([ // todo refactor away from factories
+            'retro_session_id' => $retroSession->id
+        ]);
+
+        return response()->json([
+            'retroSession' => $retroSession,
+            'retroUser' => $retroUser,
+        ]);
     }
 }
