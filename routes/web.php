@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RetroNoteController;
 use App\Http\Controllers\RetroSessionController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/{sessionSlug}', [RetroSessionController::class, 'show']);
+
+Route::apiResource('retroNotes', RetroNoteController::class);
