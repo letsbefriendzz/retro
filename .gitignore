@@ -21,3 +21,5 @@ package.json
 composer.json
 /retro-test
 /retro
+package-lock.json
+composer.lock

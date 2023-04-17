@@ -1,7 +1,14 @@
 <template>
-    <div>
-        <textarea v-model="newNoteText" name="newNote" id="newNote"></textarea>
-        <button @click="newNoteTextClick">Submit</button>
+    <div class="flex flex-row justify-center">
+        <textarea
+            :id="textareaId"
+            v-model="newNoteText"
+            class="resize-none textarea flex-grow"
+            @keyup.enter="newNoteTextClick"
+            @input="preventNewline"
+        >
+        </textarea>
+        <button @click="newNoteTextClick" class="btn btn-primary mx-3">Submit</button>
     </div>
 </template>
 
@@ -10,7 +17,11 @@ export default {
     name: "NoteTextArea",
     emits: ['newNoteCreated'],
     components: {},
-    props: {},
+    props: {
+        retroColumn: {
+            type: String,
+        },
+    },
     data() {
         return {
             newNoteText: '',
@@ -18,11 +29,43 @@ export default {
     },
     methods: {
         newNoteTextClick() {
-            this.$emit('newNoteCreated', {newNoteText: this.newNoteText});
+            if (this.isNoteTextValid) {
+                this.$emit('newNoteCreated', {newNoteText: this.newNoteText})
+                this.newNoteText = ''
+                this.clearAuxiliaryTextareaClasses()
+            } else {
+                this.addTextareaClass('textarea-error')
+            }
+        },
+        preventNewline() {
+            this.newNoteText = this.newNoteText.replace(/[\r\n]+/g, '');
+            if (this.isNoteTextValid && this.textareaHasClass('textarea-error')) {
+                this.removeTextareaClass('textarea-error')
+                this.addTextareaClass('textarea-success')
+            }
+        },
+        addTextareaClass(cssClass) {
+            document.querySelector(`#${this.textareaId}`).classList.add(cssClass)
+        },
+        removeTextareaClass(cssClass) {
+            document.querySelector(`#${this.textareaId}`).classList.remove(cssClass)
+        },
+        textareaHasClass(cssClass) {
+            return document.querySelector(`#${this.textareaId}`).classList.contains(cssClass)
+        },
+        clearAuxiliaryTextareaClasses() {
+            this.removeTextareaClass('textarea-error')
+            this.removeTextareaClass('textarea-success')
         }
     },
-    computed: {},
-    watch: {}
+    computed: {
+        isNoteTextValid() {
+            return this.newNoteText.length > 0 && this.newNoteText.length < 255
+        },
+        textareaId() {
+            return `textarea-${this.retroColumn}`
+        }
+    },
 }
 </script>
 

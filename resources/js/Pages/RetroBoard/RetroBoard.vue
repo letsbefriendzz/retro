@@ -1,14 +1,15 @@
 <template>
-    <div>
-        <div>
-            <h1>{{ this.retroSession.slug }}</h1>
-        </div>
-        <div>
-            <ul v-for="column in this.columns">
+    <div class="flex flex-col h-screen">
+        <RetroBoardHeader :slug="retroSession.slug"/>
+        <div class="flex flex-grow justify-center content-evenly">
+            <ul v-for="column in columns"
+                class="flex-grow flex justify-center w-1/3 "
+            >
                 <RetroColumn
                     :columnOptions="column"
                     :notes="notesByColumn[column.retro_column] || []"
-                    :retroSession="this.retroSession"/>
+                    :retroSession="retroSession"
+                    :retro-user="retroUser"/>
             </ul>
         </div>
     </div>
@@ -16,11 +17,13 @@
 
 <script>
 import RetroColumn from "./RetroColumn.vue";
+import RetroBoardHeader from "./RetroBoardHeader.vue";
 
 export default {
     name: "RetroBoard",
     components: {
         RetroColumn,
+        RetroBoardHeader,
     },
     props: {
         retroSession: {
@@ -29,6 +32,10 @@ export default {
         },
         retroNotes: {
             type: Array,
+        },
+        retroUser: {
+            type: Object,
+            required: true,
         }
     },
     data() {
@@ -50,34 +57,21 @@ export default {
                     description: 'What should we discuss further?',
                 }
             ],
-            localRetroNotes: [...this.retroNotes],
-            newNoteText: '',
         }
     },
-    methods: {
-        retroNotesForColumn(column) {
-            return this.retroNotes.filter((note) => {
-                return note.retro_column === column.retro_column
-            })
-        }
-    },
+    methods: {},
     computed: {
         notesByColumn() {
-            const notesByColumn = {};
-            this.retroNotes.forEach(note => {
+            return this.retroNotes.reduce((notesByColumn, note) => {
                 if (!notesByColumn[note.retro_column]) {
                     notesByColumn[note.retro_column] = [];
                 }
                 notesByColumn[note.retro_column].push(note);
-            });
-            return notesByColumn;
+                return notesByColumn;
+            }, {});
         },
     },
-    watch: {
-        retroNotes: function (retroNotes) {
-            this.localRetroNotes = [...retroNotes]
-        }
-    }
+    watch: {}
 }
 </script>
 

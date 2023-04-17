@@ -5,7 +5,7 @@
 <script>
 export default {
     name: "BaseComponent",
-    emits: {},
+    emits: [],
     components: {},
     props: {},
     data() {
