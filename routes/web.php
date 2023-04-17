@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/{sessionSlug}', [RetroSessionController::class, 'show']);
+Route::get('/snickers/snickers', [RetroSessionController::class, 'snickers']);
 
 Route::apiResource('retroNotes', RetroNoteController::class);

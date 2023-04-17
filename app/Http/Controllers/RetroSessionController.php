@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\RetroSession;
 use App\Models\RetroUser;
-use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -20,7 +19,7 @@ class RetroSessionController extends Controller
             'retro_session_id' => $retroSession->id
         ]);
 
-        return Inertia::render('RetroBoard/RetroBoard', [
+        return Inertia::render('RetroBoard/PusherTest', [
             'retroSession' => $retroSession,
             'retroUser' => $retroUser,
         ]);
