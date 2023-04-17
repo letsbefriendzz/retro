@@ -10,6 +10,12 @@ class RetroNote extends Model
 {
     use HasFactory;
 
+    public const RETRO_COLUMNS = [
+        'wentWell',
+        'toImprove',
+        'toDiscuss',
+    ];
+
     protected $guarded = [];
 
     public function retroSession(): BelongsTo
