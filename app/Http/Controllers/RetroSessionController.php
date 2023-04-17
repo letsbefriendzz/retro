@@ -11,7 +11,7 @@ class RetroSessionController extends Controller
 {
     public function show(string $sessionSlug): Response
     {
-        $retroSession = RetroSession::query()->firstOrCreate([
+        $retroSession = RetroSession::query()->with('retroNotes')->firstOrCreate([
             'slug' => $sessionSlug,
         ]);
 
@@ -19,8 +19,9 @@ class RetroSessionController extends Controller
             'retro_session_id' => $retroSession->id
         ]);
 
-        return Inertia::render('RetroBoard/PusherTest', [
+        return Inertia::render('RetroBoard/RetroBoardParent', [
             'retroSession' => $retroSession,
+            'retroNotes' => $retroSession->retroNotes,
             'retroUser' => $retroUser,
         ]);
     }

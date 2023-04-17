@@ -2,20 +2,19 @@
 
 namespace App\Events;
 
+use App\Models\RetroNote;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RetroNoteCreated
+class RetroNoteCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $retroSessionId;
-    private $retroNote;
+    private int $retroSessionId;
+    private RetroNote $retroNote;
 
     /**
      * Create a new event instance.
@@ -43,5 +42,10 @@ class RetroNoteCreated
         return [
             'note' => $this->retroNote,
         ];
+    }
+
+    public function broadcastAs()
+    {
+        return 'retro-note-created';
     }
 }

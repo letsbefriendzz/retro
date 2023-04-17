@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\RetroNote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,7 @@ class RetroNoteFactory extends Factory
     public function definition(): array
     {
         return [
+            'retro_column' => 'wentWell',
             'content' => $this->faker->words(5, true),
         ];
     }
