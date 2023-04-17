@@ -21,4 +21,15 @@ class RetroSessionControllerTest extends TestCase
 
         $this->assertDatabaseCount('retro_users', 1);
     }
+
+    public function test_it_gets_previously_existing_retro_session()
+    {
+        $this->get('/snickers')
+            ->assertSuccessful();
+
+        $this->assertDatabaseHas('retro_sessions', ['slug' => 'snickers']);
+
+        $this->get('/snickers')
+            ->assertSuccessful();
+    }
 }
