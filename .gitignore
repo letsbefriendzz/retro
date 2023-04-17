@@ -17,3 +17,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+retro
+retro-test
+package.json
+composer.json
