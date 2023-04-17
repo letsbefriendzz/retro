@@ -14,6 +14,11 @@ return new class extends Migration
         Schema::create('retro_notes', function (Blueprint $table) {
             $table->id();
             $table->longText('content')->nullable(false);
+            $table->enum('retroColumn', [
+                'wentWell',
+                'toImprove',
+                'toDiscuss',
+            ]);
             $table->bigInteger('retro_session_id')->nullable(false);
             $table->foreign('retro_session_id')->references('id')->on('retro_sessions');
             $table->timestamps();
