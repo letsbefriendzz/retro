@@ -5,12 +5,11 @@
         </div>
         <div>
             <ul v-for="column in this.columns">
-                <RetroColumn :columnOptions="column"/>
+                <RetroColumn
+                    :columnOptions="column"
+                    :notes="notesByColumn[column.retro_column] || []"
+                    :retroSession="this.retroSession"/>
             </ul>
-        </div>
-        <div>
-            <textarea v-model="newNoteText" name="newNote" id="newNote" ></textarea>
-            <button @click="newNoteTextClick">Submit</button>
         </div>
     </div>
 </template>
@@ -36,17 +35,17 @@ export default {
         return {
             columns: [
                 {
-                    slug: 'went-well',
+                    retro_column: 'wentWell',
                     title: 'Went Well',
                     description: 'What went well?',
                 },
                 {
-                    slug: 'to-improve',
+                    retro_column: 'toImprove',
                     title: 'To Improve',
                     description: 'What could be improved?',
                 },
                 {
-                    slug: 'to-discuss',
+                    retro_column: 'toDiscuss',
                     title: 'To Discuss',
                     description: 'What should we discuss further?',
                 }
@@ -56,11 +55,24 @@ export default {
         }
     },
     methods: {
-        newNoteTextClick() {
-            console.log(this.newNoteText)
+        retroNotesForColumn(column) {
+            return this.retroNotes.filter((note) => {
+                return note.retro_column === column.retro_column
+            })
         }
     },
-    computed: {},
+    computed: {
+        notesByColumn() {
+            const notesByColumn = {};
+            this.retroNotes.forEach(note => {
+                if (!notesByColumn[note.retro_column]) {
+                    notesByColumn[note.retro_column] = [];
+                }
+                notesByColumn[note.retro_column].push(note);
+            });
+            return notesByColumn;
+        },
+    },
     watch: {
         retroNotes: function (retroNotes) {
             this.localRetroNotes = [...retroNotes]

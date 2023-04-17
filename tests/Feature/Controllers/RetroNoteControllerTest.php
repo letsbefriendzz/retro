@@ -24,6 +24,7 @@ class RetroNoteControllerTest extends TestCase
 
         $this->post(route('retroNotes.store', [
             'retro_session_id' => $this->retroSession->id,
+            'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();
 
@@ -35,12 +36,14 @@ class RetroNoteControllerTest extends TestCase
 
     public function test_it_dispatches_retro_note_created_event_when_note_created()
     {
+        $this->withoutExceptionHandling();
         Event::fake();
 
         $content = 'snickers snickers snickers snickers';
 
         $this->post(route('retroNotes.store', [
             'retro_session_id' => $this->retroSession->id,
+            'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();
 
@@ -55,6 +58,7 @@ class RetroNoteControllerTest extends TestCase
 
         $this->put("/retroNotes/{$this->retroSession->id}", [
             'retro_session_id' => $this->retroSession->id,
+            'retro_column' => 'wentWell',
             'content' => 'snickers'
         ])->assertSuccessful();
 
