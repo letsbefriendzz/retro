@@ -10,4 +10,5 @@ export default defineConfig({
         }),
         vuePlugin()
     ],
+    manifestDir: 'public/build',
 });
