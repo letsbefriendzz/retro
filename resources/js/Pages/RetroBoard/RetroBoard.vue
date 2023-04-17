@@ -1,11 +1,17 @@
 <template>
     <div>
-        <h1>{{ this.retroSession.slug }}</h1>
-    </div>
-    <div>
-        <ul v-for="column in this.columns">
-            <RetroColumn :columnOptions=column />
-        </ul>
+        <div>
+            <h1>{{ this.retroSession.slug }}</h1>
+        </div>
+        <div>
+            <ul v-for="column in this.columns">
+                <RetroColumn :columnOptions="column"/>
+            </ul>
+        </div>
+        <div>
+            <textarea v-model="newNoteText" name="newNote" id="newNote" ></textarea>
+            <button @click="newNoteTextClick">Submit</button>
+        </div>
     </div>
 </template>
 
@@ -23,7 +29,7 @@ export default {
             required: true,
         },
         retroNotes: {
-            type: Object,
+            type: Array,
         }
     },
     data() {
@@ -44,15 +50,22 @@ export default {
                     title: 'To Discuss',
                     description: 'What should we discuss further?',
                 }
-            ]
+            ],
+            localRetroNotes: [...this.retroNotes],
+            newNoteText: '',
         }
     },
     methods: {
-
+        newNoteTextClick() {
+            console.log(this.newNoteText)
+        }
     },
-    computed: {
-
-    },
+    computed: {},
+    watch: {
+        retroNotes: function (retroNotes) {
+            this.localRetroNotes = [...retroNotes]
+        }
+    }
 }
 </script>
 
