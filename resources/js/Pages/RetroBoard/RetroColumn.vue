@@ -1,13 +1,16 @@
 <template>
-    <div id="headers">
-        <h1>{{this.columnOptions.title}}</h1>
-        <h3>{{this.columnOptions.description}}</h3>
-    </div>
-    <div v-for="note in this.notes">
-        <RetroNote :note="note" />
-    </div>
-    <div id="textArea">
-        <NoteTextArea @newNoteCreated="newNoteCreated"/>
+    <div class="h-auto flex-grow bg-slate-900 p-5 relative m-3 rounded-2xl">
+        <div id="headers">
+            <h1 class="mb-6 text-2xl font-bold">{{ this.columnOptions.title }}</h1>
+        </div>
+        <div class="overflow-scroll">
+            <div v-for="note in this.localRetroNotes">
+                <RetroNote @noteDeleted="noteDeleted" :note="note"/>
+            </div>
+        </div>
+        <div id="textArea" class="footer-center absolute bottom-0 left-0 w-full p-3">
+            <NoteTextArea @newNoteCreated="newNoteCreated" :retro-column="this.columnOptions.retro_column"/>
+        </div>
     </div>
 </template>
 
@@ -27,6 +30,10 @@ export default {
             type: Object,
             required: true,
         },
+        retroUser: {
+            type: Object,
+            required: true,
+        },
         columnOptions: {
             type: Object,
             required: true,
@@ -36,15 +43,44 @@ export default {
             required: true,
         }
     },
+    data() {
+        return {
+            localRetroNotes: [...this.notes]
+        }
+    },
     methods: {
         newNoteCreated(event) {
-            axios.post(routes.retroNotes.store, {
+            const newNote = {
                 retro_session_id: this.retroSession.id,
+                retro_user_id: this.retroUser.id,
                 retro_column: this.columnOptions.retro_column,
                 content: event.newNoteText,
+            }
+            axios.post(routes.retroNotes.store, newNote).catch(() => {
+                this.localRetroNotes = this.localRetroNotes.filter((note) => {
+                    return note.content !== event.newNoteText // this will remove notes with the same text :/
+                        && note.retro_column !== this.columnOptions.retro_column
+                })
+            })
+            this.localRetroNotes.push(newNote);
+        },
+        noteDeleted(event) {
+            const deletedNoteIndex = this.localRetroNotes.findIndex(note => note.id === event.id);
+            const deletedNote = this.localRetroNotes[deletedNoteIndex];
+            axios.delete(routes.retroNotes.destroy + `/${event.id}`)
+                .catch(() => {
+                    this.localRetroNotes.splice(deletedNoteIndex, 0, deletedNote);
+                })
+            this.localRetroNotes = this.localRetroNotes.filter((note) => {
+                return note.id !== event.id
             })
         }
-    }
+    },
+    watch: {
+        notes: function (notes) {
+            this.localRetroNotes = [...notes]
+        }
+    },
 }
 </script>
 

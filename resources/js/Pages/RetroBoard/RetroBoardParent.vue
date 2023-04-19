@@ -1,19 +1,22 @@
 <template>
     <div>
-        <RetroBoard :retro-session="this.retroSession" :retro-notes="this.retroNotes"/>
+        <RetroBoard
+            :retro-session="this.retroSession"
+            :retro-notes="this.localRetroNotes"
+            :retro-user="this.retroUser"
+            class="p-6"
+        />
     </div>
 </template>
 
 <script>
 import RetroBoard from "./RetroBoard.vue";
-import NoteTextArea from "../Input/NoteTextArea.vue";
 import Pusher from "pusher-js";
 
 export default {
     name: "RetroBoardParent",
     components: {
         RetroBoard,
-        NoteTextArea,
     },
     props: {
         retroSession: {
@@ -22,25 +25,47 @@ export default {
         },
         retroNotes: {
             type: Array,
+        },
+        retroUser: {
+            type: Object,
+            required: true,
+        }
+    },
+    data() {
+        return {
+            localRetroNotes: [...this.retroNotes],
+            pusher: null,
         }
     },
     methods: {
-        newNoteReceived(pusherEvent) {
-            this.retroNotes.push(pusherEvent.note)
-        }
+        noteReceived(pusherEvent) {
+            this.localRetroNotes.push(pusherEvent.note)
+        },
+        noteDeleted(pusherEvent) {
+            this.localRetroNotes = [...this.localRetroNotes.filter(note => pusherEvent.note.id !== note.id)]
+        },
     },
     computed: {
         pusherChannelName() {
             return `retro-session-${this.retroSession.id}`
         }
     },
+    watch: {
+        retroNotes: function (retroNotes) {
+            this.localRetroNotes = [...retroNotes]
+        }
+    },
     mounted() {
-        const pusher = new Pusher('978e85c5d158cc9b310c', {
+        this.pusher = new Pusher('978e85c5d158cc9b310c', {
             cluster: 'us2'
         });
 
-        const channel = pusher.subscribe(this.pusherChannelName);
-        channel.bind('retro-note-created', this.newNoteReceived);
+        const channel = this.pusher.subscribe(this.pusherChannelName);
+        channel.bind('retro-note-created', this.noteReceived);
+        channel.bind('retro-note-deleted', this.noteDeleted);
+    },
+    beforeDestroy() {
+        this.pusher.unsubscribe(this.pusherChannelName)
     }
 }
 </script>

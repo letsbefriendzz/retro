@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\RetroUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class RetroUserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->firstName . ' ' . $this->faker->lastName
+            'name' => $this->faker->firstName . ' ' . $this->faker->lastName,
+            'colour' => $this->faker->randomElement(RetroUser::DAISY_UI_COLOURS),
         ];
     }
 }
