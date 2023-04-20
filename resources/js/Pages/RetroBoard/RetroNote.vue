@@ -1,5 +1,15 @@
 <template>
-    <div class="card bg-base-100 m-0 p-0 shadow-xl my-2">
+    <div :class="parentDivClasses">
+        <div class="bg-primary-focus
+                    bg-accent-focus
+                    bg-info
+                    bg-success
+                    bg-success-content
+                    bg-warning
+                    bg-error
+                    bg-error-content"
+        >
+        </div>
         <div class="card-body py-1 px-4 flex flex-row">
             <div class="card-title font-light text-base flex-grow">
                 <p>{{ this.localNote.content }}</p>
@@ -37,7 +47,7 @@ export default {
         }
     },
     watch: {
-        note: function(newValue) {
+        note: function (newValue) {
             this.localNote = newValue
         }
     },

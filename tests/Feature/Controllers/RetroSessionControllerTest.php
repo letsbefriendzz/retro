@@ -62,6 +62,6 @@ class RetroSessionControllerTest extends TestCase
 
         $this->get('/snickers')->assertSuccessful();
 
-        $this->assertNull($retroSession->retroUsers->last()->colour);
+        $this->assertEquals('base-100', $retroSession->retroUsers->last()->colour);
     }
 }

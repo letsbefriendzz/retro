@@ -20,6 +20,6 @@ yarn-error.log
 package.json
 composer.json
 /retro-test
-/retro
+/storage/retro
 package-lock.json
 composer.lock

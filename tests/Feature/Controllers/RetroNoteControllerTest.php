@@ -5,6 +5,7 @@ namespace Tests\Feature\Controllers;
 use App\Events\RetroNoteCreated;
 use App\Models\RetroNote;
 use App\Models\RetroSession;
+use App\Models\RetroUser;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -22,14 +23,20 @@ class RetroNoteControllerTest extends TestCase
     {
         $content = 'snickers snickers snickers snickers';
 
+        $user = RetroUser::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+        ]);
+
         $this->post(route('retroNotes.store', [
             'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $user->id,
             'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();
 
         $this->assertDatabaseHas('retro_notes', [
             'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $user->id,
             'content' => $content,
         ]);
     }
@@ -39,10 +46,15 @@ class RetroNoteControllerTest extends TestCase
         $this->withoutExceptionHandling();
         Event::fake();
 
+        $user = RetroUser::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+        ]);
+
         $content = 'snickers snickers snickers snickers';
 
         $this->post(route('retroNotes.store', [
             'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $user->id,
             'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();
@@ -52,12 +64,18 @@ class RetroNoteControllerTest extends TestCase
 
     public function test_it_can_update_a_retro_note()
     {
+        $user = RetroUser::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+        ]);
+
         $note = RetroNote::factory()->create([
             'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $user->id,
         ]);
 
         $this->put("/retroNotes/{$this->retroSession->id}", [
             'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $user->id,
             'retro_column' => 'wentWell',
             'content' => 'snickers'
         ])->assertSuccessful();
@@ -70,8 +88,13 @@ class RetroNoteControllerTest extends TestCase
 
     public function test_it_can_delete_a_retro_note()
     {
+        $user = RetroUser::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+        ]);
+
         $note = RetroNote::factory()->create([
             'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $user->id,
             'content' => 'snickers',
         ]);
 

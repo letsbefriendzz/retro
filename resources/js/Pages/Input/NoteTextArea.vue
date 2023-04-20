@@ -56,7 +56,7 @@ export default {
         clearAuxiliaryTextareaClasses() {
             this.removeTextareaClass('textarea-error')
             this.removeTextareaClass('textarea-success')
-        }
+        },
     },
     computed: {
         isNoteTextValid() {

@@ -15,8 +15,13 @@ class RetroSessionTest extends TestCase
             'slug' => 'snickers',
         ]);
 
+        $user = RetroUser::factory()->create([
+            'retro_session_id' => $retroSession->id,
+        ]);
+
         RetroNote::factory()->create([
             'retro_session_id' => $retroSession->id,
+            'retro_user_id' => $user->id,
         ]);
 
         $this->assertCount(1, $retroSession->retroNotes);
@@ -28,8 +33,13 @@ class RetroSessionTest extends TestCase
             'slug' => 'snickers',
         ]);
 
+        $user = RetroUser::factory()->create([
+            'retro_session_id' => $retroSession->id,
+        ]);
+
         RetroNote::factory(3)->create([
             'retro_session_id' => $retroSession->id,
+            'retro_user_id' => $user->id,
         ]);
 
         $this->assertCount(3, $retroSession->retroNotes);

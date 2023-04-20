@@ -34,7 +34,6 @@ class RetroSessionController extends Controller
             ];
         });
 
-
         $retroUser = RetroUser::query()->create([
             'retro_session_id' => $retroSession->id,
             'name' => 'retro_user',

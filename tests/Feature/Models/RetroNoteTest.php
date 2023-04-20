@@ -4,21 +4,16 @@ namespace Tests\Feature\Models;
 
 use App\Models\RetroNote;
 use App\Models\RetroSession;
+use App\Models\RetroUser;
 use Tests\TestCase;
 
-class RetroUserTest extends TestCase
+class RetroNoteTest extends TestCase
 {
     public function test_it_can_have_a_retro_note()
     {
-        $retroSession = RetroSession::factory()->create([
-            'slug' => 'snickers',
-        ]);
+        $retroNote = RetroNote::factory()->recycle(RetroSession::factory()->create())->create();
 
-        RetroNote::factory()->create([
-            'retro_session_id' => $retroSession->id,
-        ]);
-
-        $this->assertCount(1, $retroSession->retroNotes);
+        $this->assertCount(1, $retroNote->retroSession->retroNotes);
     }
 
     public function test_it_can_have_multiple_retro_notes()
