@@ -18,6 +18,7 @@
 import NoteTextArea from "../Input/NoteTextArea.vue";
 import RetroNote from "./RetroNote.vue";
 import {routes} from "../routes";
+import {throttle} from 'lodash';
 
 export default {
     name: "RetroColumn",
@@ -49,7 +50,7 @@ export default {
         }
     },
     methods: {
-        newNoteCreated(event) {
+        newNoteCreated: throttle(function (event) {
             const newNote = {
                 retro_session_id: this.retroSession.id,
                 retro_user_id: this.retroUser.id,
@@ -64,8 +65,8 @@ export default {
                 })
             })
             this.localRetroNotes.push(newNote);
-        },
-        noteDeleted(event) {
+        }, 500),
+        noteDeleted: throttle(function (event) {
             const deletedNoteIndex = this.localRetroNotes.findIndex(note => note.id === event.id);
             const deletedNote = this.localRetroNotes[deletedNoteIndex];
             this.$nextTick(() => this.localRetroNotes = this.localRetroNotes.filter((note) => {
@@ -75,7 +76,7 @@ export default {
                 .catch(() => {
                     this.localRetroNotes.splice(deletedNoteIndex, 0, deletedNote);
                 })
-        }
+        }, 500)
     },
     watch: {
         notes: function (notes) {
