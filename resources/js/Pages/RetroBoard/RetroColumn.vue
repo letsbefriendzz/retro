@@ -68,13 +68,13 @@ export default {
         noteDeleted(event) {
             const deletedNoteIndex = this.localRetroNotes.findIndex(note => note.id === event.id);
             const deletedNote = this.localRetroNotes[deletedNoteIndex];
+            this.$nextTick(() => this.localRetroNotes = this.localRetroNotes.filter((note) => {
+                return note.id !== event.id
+            }))
             axios.delete(routes.retroNotes.destroy + `/${event.id}`)
                 .catch(() => {
                     this.localRetroNotes.splice(deletedNoteIndex, 0, deletedNote);
                 })
-            this.localRetroNotes = this.localRetroNotes.filter((note) => {
-                return note.id !== event.id
-            })
         }
     },
     watch: {

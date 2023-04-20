@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('retro_users', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('name')->nullable(false);
             $table->string('colour')->nullable(false);
-            $table->bigInteger('retro_session_id')->nullable(false);
+            $table->unsignedBigInteger('retro_session_id')->nullable(false);
             $table->foreign('retro_session_id')->references('id')->on('retro_sessions');
             $table->timestamps();
         });

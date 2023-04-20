@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('retro_sessions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('slug')->unique()->nullable(false);
             $table->timestamps();
         });
