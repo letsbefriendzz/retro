@@ -32,6 +32,7 @@ export default {
     },
     computed: {
         parentDivClasses() {
+            console.log(this.localNote.colour)
             return `card bg-${this.localNote.colour ?? 'bg-base-100'} m-0 p-0 shadow-xl my-2`
         }
     },

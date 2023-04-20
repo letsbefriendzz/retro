@@ -38,7 +38,7 @@ class RetroSessionController extends Controller
         $retroUser = RetroUser::query()->create([
             'retro_session_id' => $retroSession->id,
             'name' => 'retro_user',
-            'colour' => collect($retroSession->unusedColours())->count() > 0 ? collect($retroSession->unusedColours())->random() : null, // todo: not this
+            'colour' => collect($retroSession->unusedColours())->count() > 0 ? collect($retroSession->unusedColours())->random() : 'base-100', // todo: not this
         ]);
 
         return Inertia::render('RetroBoard/RetroBoardParent', [
