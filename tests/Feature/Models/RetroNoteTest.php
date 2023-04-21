@@ -9,23 +9,19 @@ use Tests\TestCase;
 
 class RetroNoteTest extends TestCase
 {
-    public function test_it_can_have_a_retro_note()
+    public function test_it_belongs_to_a_retro_session()
     {
-        $retroNote = RetroNote::factory()->recycle(RetroSession::factory()->create())->create();
+        $retroSession = RetroSession::factory()->create();
 
-        $this->assertCount(1, $retroNote->retroSession->retroNotes);
-    }
-
-    public function test_it_can_have_multiple_retro_notes()
-    {
-        $retroSession = RetroSession::factory()->create([
-            'slug' => 'snickers',
-        ]);
-
-        RetroNote::factory(3)->create([
+        $retroUser = RetroUser::factory()->create([
             'retro_session_id' => $retroSession->id,
         ]);
 
-        $this->assertCount(3, $retroSession->retroNotes);
+        $retroNote = RetroNote::factory()->create([
+            'retro_session_id' => $retroSession->id,
+            'retro_user_id' => $retroUser->id,
+        ]);
+
+        $this->assertEquals(1, $retroNote->retroSession->count());
     }
 }

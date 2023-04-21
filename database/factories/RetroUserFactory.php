@@ -19,7 +19,7 @@ class RetroUserFactory extends Factory
     public function definition(): array
     {
         return [
-            'retro_session_id' => RetroSession::factory(),
+//            'retro_session_id' => RetroSession::factory(),
             'name' => $this->faker->firstName . ' ' . $this->faker->lastName,
             'colour' => $this->faker->randomElement(RetroUser::DAISY_UI_COLOURS),
         ];
