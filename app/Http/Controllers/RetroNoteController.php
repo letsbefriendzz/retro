@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Events\RetroNoteCreated;
 use App\Events\RetroNoteDeleted;
 use App\Http\Requests\RetroNoteRequest;
+use App\Http\Resources\RetroNoteResource;
 use App\Models\RetroNote;
-use App\Models\RetroSession;
 use Illuminate\Http\JsonResponse;
 
 class RetroNoteController extends Controller
 {
-    public function store(RetroNoteRequest $request): JsonResponse
+    public function store(RetroNoteRequest $request): RetroNoteResource
     {
         $validated = $request->validated();
         $retroNote = RetroNote::query()->create([
@@ -23,17 +23,15 @@ class RetroNoteController extends Controller
 
         RetroNoteCreated::dispatch($validated['retro_session_id'], $retroNote);
 
-        return response()->json([
-            'retroNote' => $retroNote
-        ]);
+        return new RetroNoteResource($retroNote);
     }
 
-    public function show(RetroNote $retroNote): JsonResponse
+    public function show(RetroNote $retroNote): RetroNoteResource
     {
-        return response()->json(['retroNote' => $retroNote]);
+        return new RetroNoteResource($retroNote);
     }
 
-    public function update(RetroNote $retroNote, RetroNoteRequest $request): JsonResponse
+    public function update(RetroNote $retroNote, RetroNoteRequest $request): RetroNoteResource
     {
         $validated = $request->validated();
 
@@ -41,9 +39,7 @@ class RetroNoteController extends Controller
             'content' => $validated['content'],
         ]);
 
-        return response()->json([
-            'retroNote' => $retroNote,
-        ]);
+        return new RetroNoteResource($retroNote);
     }
 
     public function destroy(RetroNote $retroNote): JsonResponse
@@ -59,7 +55,7 @@ class RetroNoteController extends Controller
 
         return response()->json([
             'deleted' => $delete,
-            'retroNote' => $retroNote->toArray(),
+            'retroNote' => new RetroNoteResource($retroNote),
         ]);
     }
 }
