@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers;
 
 use App\Events\RetroNoteCreated;
+use App\Events\RetroNoteDeleted;
 use App\Models\RetroNote;
 use App\Models\RetroSession;
 use App\Models\RetroUser;
@@ -33,6 +34,7 @@ class RetroNoteControllerTest extends TestCase
             'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();
+//            ->assertJsonStructure(['retroNote' => ['id', 'retro_session_id', 'retro_user_id', 'retro_column', 'content']]);;
 
         $this->assertDatabaseHas('retro_notes', [
             'retro_session_id' => $this->retroSession->id,
@@ -41,9 +43,78 @@ class RetroNoteControllerTest extends TestCase
         ]);
     }
 
-    public function test_it_dispatches_retro_note_created_event_when_note_created()
+    public function test_it_can_update_a_retro_note()
     {
-        $this->withoutExceptionHandling();
+        $user = RetroUser::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+        ]);
+
+        $retroNote = RetroNote::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $user->id,
+        ]);
+
+        $this->putJson(route('retroNotes.update', $retroNote), [
+            'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $user->id,
+            'retro_column' => 'wentWell',
+            'content' => 'snickers'
+        ])->assertSuccessful();
+
+        $this->assertDatabaseHas('retro_notes', [
+            'id' => $retroNote->id,
+            'content' => 'snickers',
+        ]);
+    }
+
+    public function test_it_can_delete_a_retro_note()
+    {
+        $retroUser = RetroUser::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+        ]);
+
+        $retroNote = RetroNote::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $retroUser->id,
+            'content' => 'snickers',
+        ]);
+
+        $this->deleteJson(route('retroNotes.destroy', $retroNote))
+            ->assertSuccessful();
+
+        $this->assertDatabaseMissing('retro_notes', [
+            'id' => $retroNote->id,
+            'content' => 'snickers',
+        ]);
+    }
+
+    public function test_it_dispatches_retro_note_deleted_event()
+    {
+        Event::fake();
+
+        $retroUser = RetroUser::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+        ]);
+
+        $retroNote = RetroNote::factory()->create([
+            'retro_session_id' => $this->retroSession->id,
+            'retro_user_id' => $retroUser->id,
+            'content' => 'snickers',
+        ]);
+
+        $this->deleteJson(route('retroNotes.destroy', $retroNote))
+            ->assertSuccessful();
+
+        $this->assertDatabaseMissing('retro_notes', [
+            'id' => $retroNote->id,
+            'content' => 'snickers',
+        ]);
+
+        Event::assertDispatched(RetroNoteDeleted::class);
+    }
+
+    public function test_it_dispatches_retro_note_created_event()
+    {
         Event::fake();
 
         $user = RetroUser::factory()->create([
@@ -60,49 +131,5 @@ class RetroNoteControllerTest extends TestCase
         ]))->assertSuccessful();
 
         Event::assertDispatched(RetroNoteCreated::class);
-    }
-
-    public function test_it_can_update_a_retro_note()
-    {
-        $user = RetroUser::factory()->create([
-            'retro_session_id' => $this->retroSession->id,
-        ]);
-
-        $note = RetroNote::factory()->create([
-            'retro_session_id' => $this->retroSession->id,
-            'retro_user_id' => $user->id,
-        ]);
-
-        $this->put("/retroNotes/{$this->retroSession->id}", [
-            'retro_session_id' => $this->retroSession->id,
-            'retro_user_id' => $user->id,
-            'retro_column' => 'wentWell',
-            'content' => 'snickers'
-        ])->assertSuccessful();
-
-        $this->assertDatabaseHas('retro_notes', [
-            'id' => $note->id,
-            'content' => 'snickers',
-        ]);
-    }
-
-    public function test_it_can_delete_a_retro_note()
-    {
-        $user = RetroUser::factory()->create([
-            'retro_session_id' => $this->retroSession->id,
-        ]);
-
-        $note = RetroNote::factory()->create([
-            'retro_session_id' => $this->retroSession->id,
-            'retro_user_id' => $user->id,
-            'content' => 'snickers',
-        ]);
-
-        $this->delete("/retroNotes/{$this->retroSession->id}")->assertSuccessful();
-
-        $this->assertDatabaseMissing('retro_notes', [
-            'id' => $note->id,
-            'content' => 'snickers',
-        ]);
     }
 }
