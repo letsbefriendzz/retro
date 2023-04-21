@@ -17,13 +17,9 @@ class RetroSession extends Model
         return $this->hasMany(RetroNote::class);
     }
 
-    public function retroUsers(): HasMany
-    {
-        return $this->hasMany(RetroUser::class);
-    }
-
     public function unusedColours()
     {
+        return [];
         return array_diff(
             RetroUser::DAISY_UI_COLOURS,
             $this->retroUsers()->whereNotNull('colour')->pluck('colour')->toArray(),

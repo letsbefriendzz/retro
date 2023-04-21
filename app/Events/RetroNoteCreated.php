@@ -40,10 +40,7 @@ class RetroNoteCreated implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'note' => [
-                ...$this->retroNote->toArray(),
-                'colour' => $this->retroNote->retroUser->colour,
-                ],
+            'note' => [...$this->retroNote->toArray()],
         ];
     }
 

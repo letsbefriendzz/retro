@@ -18,7 +18,6 @@ class RetroNoteResource extends JsonResource
             "id" => $this->id,
             "content" => $this->content,
             "retro_column" => $this->retro_column,
-            "retro_user_id" => $this->retro_user_id,
             "retro_session_id" => $this->retro_session_id,
             "updated_at" => $this->updated_at,
             "created_at" => $this->created_at,

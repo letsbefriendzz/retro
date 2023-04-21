@@ -23,7 +23,6 @@ class RetroNoteRequest extends FormRequest
                     }
                 },
             ],
-            'retro_user_id' => 'required',
             'retro_column' => 'required',
             'content' => 'required|max:255',
         ];
