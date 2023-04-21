@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\RetroSession;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RetroNoteRequest extends FormRequest
+class NoteRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

@@ -2,27 +2,27 @@
 
 namespace App\Events;
 
-use App\Models\RetroNote;
+use App\Models\Note;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RetroNoteCreated implements ShouldBroadcast
+class NoteCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private int $retroSessionId;
-    private RetroNote $retroNote;
+    private Note $note;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($retroSessionId, $retroNote)
+    public function __construct($retroSessionId, $note)
     {
         $this->retroSessionId = $retroSessionId;
-        $this->retroNote = $retroNote;
+        $this->note = $note;
     }
 
     /**
@@ -40,7 +40,7 @@ class RetroNoteCreated implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'note' => [...$this->retroNote->toArray()],
+            'note' => [...$this->note->toArray()],
         ];
     }
 

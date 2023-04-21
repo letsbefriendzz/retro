@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Controllers;
 
-use App\Events\RetroNoteCreated;
-use App\Events\RetroNoteDeleted;
-use App\Models\RetroNote;
+use App\Events\NoteCreated;
+use App\Events\NoteDeleted;
+use App\Models\Note;
 use App\Models\RetroSession;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-class RetroNoteControllerTest extends TestCase
+class NoteControllerTest extends TestCase
 {
     private RetroSession $retroSession;
 
@@ -24,13 +24,13 @@ class RetroNoteControllerTest extends TestCase
     {
         $content = 'snickers snickers snickers snickers';
 
-        $this->post(route('retroNotes.store', [
+        $this->post(route('notes.store', [
             'retro_session_id' => $this->retroSession->id,
             'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();
 
-        $this->assertDatabaseHas('retro_notes', [
+        $this->assertDatabaseHas('notes', [
             'retro_session_id' => $this->retroSession->id,
             'content' => $content,
         ]);
@@ -38,34 +38,34 @@ class RetroNoteControllerTest extends TestCase
 
     public function test_it_can_update_a_retro_note()
     {
-        $retroNote = RetroNote::factory()->create([
+        $note = Note::factory()->create([
             'retro_session_id' => $this->retroSession->id,
         ]);
 
-        $this->putJson(route('retroNotes.update', $retroNote), [
+        $this->putJson(route('notes.update', $note), [
             'retro_session_id' => $this->retroSession->id,
             'retro_column' => 'wentWell',
             'content' => 'snickers'
         ])->assertSuccessful();
 
-        $this->assertDatabaseHas('retro_notes', [
-            'id' => $retroNote->id,
+        $this->assertDatabaseHas('notes', [
+            'id' => $note->id,
             'content' => 'snickers',
         ]);
     }
 
     public function test_it_can_delete_a_retro_note()
     {
-        $retroNote = RetroNote::factory()->create([
+        $note = Note::factory()->create([
             'retro_session_id' => $this->retroSession->id,
             'content' => 'snickers',
         ]);
 
-        $this->deleteJson(route('retroNotes.destroy', $retroNote))
+        $this->deleteJson(route('notes.destroy', $note))
             ->assertSuccessful();
 
-        $this->assertDatabaseMissing('retro_notes', [
-            'id' => $retroNote->id,
+        $this->assertDatabaseMissing('notes', [
+            'id' => $note->id,
             'content' => 'snickers',
         ]);
     }
@@ -74,20 +74,20 @@ class RetroNoteControllerTest extends TestCase
     {
         Event::fake();
 
-        $retroNote = RetroNote::factory()->create([
+        $note = Note::factory()->create([
             'retro_session_id' => $this->retroSession->id,
             'content' => 'snickers',
         ]);
 
-        $this->deleteJson(route('retroNotes.destroy', $retroNote))
+        $this->deleteJson(route('notes.destroy', $note))
             ->assertSuccessful();
 
-        $this->assertDatabaseMissing('retro_notes', [
-            'id' => $retroNote->id,
+        $this->assertDatabaseMissing('notes', [
+            'id' => $note->id,
             'content' => 'snickers',
         ]);
 
-        Event::assertDispatched(RetroNoteDeleted::class);
+        Event::assertDispatched(NoteDeleted::class);
     }
 
     public function test_it_dispatches_retro_note_created_event()
@@ -96,12 +96,12 @@ class RetroNoteControllerTest extends TestCase
 
         $content = 'snickers snickers snickers snickers';
 
-        $this->post(route('retroNotes.store', [
+        $this->post(route('notes.store', [
             'retro_session_id' => $this->retroSession->id,
             'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();
 
-        Event::assertDispatched(RetroNoteCreated::class);
+        Event::assertDispatched(NoteCreated::class);
     }
 }

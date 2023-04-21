@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Events\RetroNoteCreated;
+use App\Events\NoteCreated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        RetroNoteCreated::class => [
+        NoteCreated::class => [
 
         ],
     ];

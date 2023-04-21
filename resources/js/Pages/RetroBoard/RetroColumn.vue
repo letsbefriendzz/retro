@@ -52,7 +52,7 @@ export default {
                 retro_column: this.columnOptions.retro_column,
                 content: event.newNoteText,
             }
-            axios.post(routes.retroNotes.store, newNote).catch(() => {
+            axios.post(routes.notes.store, newNote).catch(() => {
                 this.localRetroNotes = this.localRetroNotes.filter((note) => {
                     return note.content !== event.newNoteText // this will remove notes with the same text :/
                         && note.retro_column !== this.columnOptions.retro_column
@@ -66,7 +66,7 @@ export default {
             this.$nextTick(() => this.localRetroNotes = this.localRetroNotes.filter((note) => {
                 return note.id !== event.id
             }))
-            axios.delete(routes.retroNotes.destroy + `/${event.id}`)
+            axios.delete(routes.notes.destroy + `/${event.id}`)
                 .catch(() => {
                     this.localRetroNotes.splice(deletedNoteIndex, 0, deletedNote);
                 })

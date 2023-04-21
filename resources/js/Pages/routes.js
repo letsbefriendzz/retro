@@ -1,6 +1,6 @@
 export const routes = {
-    retroNotes: {
-        store: '/retroNotes',
-        destroy: '/retroNotes',
+    notes: {
+        store: '/notes',
+        destroy: '/notes',
     }
 }

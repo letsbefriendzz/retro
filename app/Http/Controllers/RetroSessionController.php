@@ -10,12 +10,12 @@ class RetroSessionController extends Controller
 {
     public function show(string $sessionSlug): Response
     {
-        $retroSession = RetroSession::query()->with('retroNotes')
+        $retroSession = RetroSession::query()->with('notes')
             ->firstOrCreate([
                 'slug' => $sessionSlug,
             ]);
 
-        $retroSession->retroNotes = collect($retroSession->retroNotes)->map(function ($note) {
+        $retroSession->notes = collect($retroSession->notes)->map(function ($note) {
             $note = $note->toArray();
             return [
                 "id" => $note['id'],
@@ -29,7 +29,7 @@ class RetroSessionController extends Controller
 
         return Inertia::render('RetroBoard/RetroBoardParent', [
             'retroSession' => $retroSession,
-            'retroNotes' => $retroSession->retroNotes,
+            'notes' => $retroSession->notes, // todo fe refactor
         ]);
     }
 }

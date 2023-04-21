@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property mixed $id
  */
-class RetroNote extends Model
+class Note extends Model
 {
     use HasFactory;
 
