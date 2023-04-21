@@ -3,7 +3,7 @@
         <div id="headers">
             <h1 class="mb-6 text-2xl font-bold">{{ this.columnOptions.title }}</h1>
         </div>
-        <div class="overflow-scroll">
+        <div>
             <div v-for="note in this.localRetroNotes">
                 <RetroNote @noteDeleted="noteDeleted" :note="note"/>
             </div>
