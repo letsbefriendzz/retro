@@ -25,9 +25,4 @@ class RetroNote extends Model
     {
         return $this->belongsTo(RetroSession::class);
     }
-
-    public function retroUser(): BelongsTo
-    {
-        return $this->belongsTo(RetroUser::class);
-    }
 }

@@ -31,10 +31,6 @@ export default {
             type: Object,
             required: true,
         },
-        retroUser: {
-            type: Object,
-            required: true,
-        },
         columnOptions: {
             type: Object,
             required: true,
@@ -53,10 +49,8 @@ export default {
         newNoteCreated: throttle(function (event) {
             const newNote = {
                 retro_session_id: this.retroSession.id,
-                retro_user_id: this.retroUser.id,
                 retro_column: this.columnOptions.retro_column,
                 content: event.newNoteText,
-                colour: this.retroUser.colour,
             }
             axios.post(routes.retroNotes.store, newNote).catch(() => {
                 this.localRetroNotes = this.localRetroNotes.filter((note) => {

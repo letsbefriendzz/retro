@@ -1,5 +1,5 @@
 <template>
-    <div :class="parentDivClasses">
+    <div class="card bg-base-100 m-0 p-0 shadow-xl my-2">
         <div class="bg-primary-focus
                     bg-accent-focus
                     bg-info

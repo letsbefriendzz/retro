@@ -3,7 +3,6 @@
         <RetroBoard
             :retro-session="this.retroSession"
             :retro-notes="this.localRetroNotes"
-            :retro-user="this.retroUser"
             class="p-6"
         />
     </div>
@@ -26,10 +25,6 @@ export default {
         retroNotes: {
             type: Array,
         },
-        retroUser: {
-            type: Object,
-            required: true,
-        }
     },
     data() {
         return {

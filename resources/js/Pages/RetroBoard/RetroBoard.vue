@@ -8,8 +8,7 @@
                 <RetroColumn
                     :columnOptions="column"
                     :notes="notesByColumn[column.retro_column] || []"
-                    :retroSession="retroSession"
-                    :retro-user="retroUser"/>
+                    :retroSession="retroSession"/>
             </ul>
         </div>
     </div>
@@ -33,10 +32,6 @@ export default {
         retroNotes: {
             type: Array,
         },
-        retroUser: {
-            type: Object,
-            required: true,
-        }
     },
     data() {
         return {

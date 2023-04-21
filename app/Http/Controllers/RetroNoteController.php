@@ -16,7 +16,6 @@ class RetroNoteController extends Controller
         $validated = $request->validated();
         $retroNote = RetroNote::query()->create([
             'retro_session_id' => $validated['retro_session_id'],
-            'retro_user_id' => $validated['retro_user_id'],
             'retro_column' => $validated['retro_column'],
             'content' => $validated['content'],
         ]);
