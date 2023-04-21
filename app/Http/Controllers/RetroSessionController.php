@@ -19,7 +19,6 @@ class RetroSessionController extends Controller
                 'slug' => $sessionSlug,
             ]);
 
-
         $retroSession->retroNotes = collect($retroSession->retroNotes)->map(function ($note) {
             $note = $note->toArray();
             return [
