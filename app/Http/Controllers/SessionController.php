@@ -11,10 +11,21 @@ class SessionController extends Controller
 {
     public function show(string $sessionSlug): Response
     {
+        /** TODO: refactor this into something prettier.
+         *  While it does function, using first and then checking the falsiness of the
+         *  session that is returned is diddly darn ugly, if I do say so myself.
+         */
         $session = Session::query()->with('notes')
-            ->firstOrCreate([
-                'slug' => $sessionSlug,
+            ->where('slug', $sessionSlug)
+            ->first();
+
+        if (!$session) {
+            $session = Session::query()->create([
+                'slug' => $sessionSlug
             ]);
+
+            $session->createDefaultColumns();
+        }
 
         $session->notes = collect($session->notes)->map(function ($note) {
             $note = $note->toArray();

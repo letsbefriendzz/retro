@@ -10,6 +10,18 @@ class Column extends Model
 {
     use HasFactory;
 
+    public const DEFAULT_COLUMNS = [
+        [
+            'title' => 'Went Well',
+        ],
+        [
+            'title' => 'To Improve',
+        ],
+        [
+            'title' => 'To Discuss',
+        ],
+    ];
+
     protected $guarded = [];
 
     public function session(): BelongsTo

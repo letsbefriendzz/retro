@@ -22,4 +22,16 @@ class SessionTest extends TestCase
         $this->assertTrue($session->notes->contains($note1));
         $this->assertTrue($session->notes->contains($note2));
     }
+
+    public function test_it_creates_default_columns()
+    {
+        $session = Session::factory()->create(['slug' => 'snickers']);
+
+        $this->assertDatabaseCount('columns', 0);
+
+        $session->createDefaultColumns();
+
+        $this->assertDatabaseCount('columns', 3);
+        $this->assertCount(3, $session->columns);
+    }
 }

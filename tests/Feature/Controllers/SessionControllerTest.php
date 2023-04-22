@@ -5,6 +5,7 @@ namespace Tests\Feature\Controllers;
 use App\Models\Session;
 use App\Models\User;
 use Tests\TestCase;
+use function PHPUnit\Framework\assertCount;
 
 class SessionControllerTest extends TestCase
 {
@@ -31,5 +32,16 @@ class SessionControllerTest extends TestCase
 
         $this->get('/snickers') // todo test harder
             ->assertSuccessful();
+    }
+
+    public function test_it_creates_default_columns_for_sessions()
+    {
+        $this->get('/snickers')
+            ->assertSuccessful();
+
+        $this->assertCount(
+            3,
+            Session::query()->where('slug', '=', 'snickers')->first()->columns
+        );
     }
 }

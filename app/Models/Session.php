@@ -17,8 +17,18 @@ class Session extends Model
         return $this->hasMany(Note::class);
     }
 
-    public function unusedColours()
+    public function columns()
     {
-        return [];
+        return $this->hasMany(Column::class);
+    }
+
+    public function createDefaultColumns()
+    {
+        collect(Column::DEFAULT_COLUMNS)->each(function ($column) {
+            $this->columns()->create([
+                'title' => $column['title'],
+                'session_id' => $this->id
+            ]);
+        });
     }
 }
