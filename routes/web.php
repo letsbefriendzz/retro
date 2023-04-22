@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SessionController;
@@ -17,18 +18,18 @@ use App\Models\Note;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('logout', [LogoutController::class, 'logout']);
+
+Route::apiResource('columns', ColumnController::class)->only(['store', 'show', 'update', 'destroy']);
+Route::apiResource('notes', NoteController::class)->only(['store', 'show', 'update', 'destroy']);
 
 Route::get('/{sessionSlug}', [SessionController::class, 'show']);
-Route::get('/snickers/snickers', [SessionController::class, 'snickers']);
 
-Route::apiResource('notes', NoteController::class);
-
+Route::get('logout', [LogoutController::class, 'logout']);
 Route::prefix('login')->group(function () { // todo restructure this grouping yuckiness
     Route::prefix('github')->group(function () {
-        Route::get('/', [LoginController::class, 'redirectToProvider'])->name('login.github');
         Route::get('callback', [LoginController::class, 'handleProviderCallback'])
             ->name('login.github.callback');
+        Route::get('/', [LoginController::class, 'redirectToProvider'])->name('login.github');
     });
 });
 
