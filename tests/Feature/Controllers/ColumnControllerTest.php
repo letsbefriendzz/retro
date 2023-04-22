@@ -5,7 +5,6 @@ namespace Tests\Feature\Controllers;
 use App\Models\Column;
 use App\Models\Session;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ColumnControllerTest extends TestCase
