@@ -19,8 +19,8 @@ return new class extends Migration
                 'toImprove',
                 'toDiscuss',
             ])->nullable(false);
-            $table->unsignedBigInteger('retro_session_id')->nullable(false);
-            $table->foreign('retro_session_id')->references('id')->on('retro_sessions');
+            $table->unsignedBigInteger('session_idr')->nullable(false);
+            $table->foreign('session_id')->references('id')->on('sessions');
             $table->timestamps();
         });
     }

@@ -48,7 +48,7 @@ export default {
     methods: {
         newNoteCreated: throttle(function (event) {
             const newNote = {
-                retro_session_id: this.retroSession.id,
+                session_id: this.retroSession.id,
                 retro_column: this.columnOptions.retro_column,
                 content: event.newNoteText,
             }

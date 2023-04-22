@@ -13,15 +13,15 @@ class NoteCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private int $retroSessionId;
+    private int $sessionId;
     private Note $note;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($retroSessionId, $note)
+    public function __construct($sessionId, $note)
     {
-        $this->retroSessionId = $retroSessionId;
+        $this->sessionId = $sessionId;
         $this->note = $note;
     }
 
@@ -33,7 +33,7 @@ class NoteCreated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel("retro-session-{$this->retroSessionId}"),
+            new Channel("retro-session-{$this->sessionId}"),
         ];
     }
 

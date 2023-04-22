@@ -5,19 +5,19 @@ namespace Tests\Feature\Controllers;
 use App\Events\NoteCreated;
 use App\Events\NoteDeleted;
 use App\Models\Note;
-use App\Models\RetroSession;
+use App\Models\Session;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class NoteControllerTest extends TestCase
 {
-    private RetroSession $retroSession;
+    private Session $session;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->withoutExceptionHandling();
-        $this->retroSession = RetroSession::factory()->create();
+        $this->session = Session::factory()->create();
     }
 
     public function test_it_can_create_a_retro_note()
@@ -25,13 +25,13 @@ class NoteControllerTest extends TestCase
         $content = 'snickers snickers snickers snickers';
 
         $this->post(route('notes.store', [
-            'retro_session_id' => $this->retroSession->id,
+            'session_id' => $this->session->id,
             'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();
 
         $this->assertDatabaseHas('notes', [
-            'retro_session_id' => $this->retroSession->id,
+            'session_id' => $this->session->id,
             'content' => $content,
         ]);
     }
@@ -39,11 +39,11 @@ class NoteControllerTest extends TestCase
     public function test_it_can_update_a_retro_note()
     {
         $note = Note::factory()->create([
-            'retro_session_id' => $this->retroSession->id,
+            'session_id' => $this->session->id,
         ]);
 
         $this->putJson(route('notes.update', $note), [
-            'retro_session_id' => $this->retroSession->id,
+            'session_id' => $this->session->id,
             'retro_column' => 'wentWell',
             'content' => 'snickers'
         ])->assertSuccessful();
@@ -57,7 +57,7 @@ class NoteControllerTest extends TestCase
     public function test_it_can_delete_a_retro_note()
     {
         $note = Note::factory()->create([
-            'retro_session_id' => $this->retroSession->id,
+            'session_id' => $this->session->id,
             'content' => 'snickers',
         ]);
 
@@ -75,7 +75,7 @@ class NoteControllerTest extends TestCase
         Event::fake();
 
         $note = Note::factory()->create([
-            'retro_session_id' => $this->retroSession->id,
+            'session_id' => $this->session->id,
             'content' => 'snickers',
         ]);
 
@@ -97,7 +97,7 @@ class NoteControllerTest extends TestCase
         $content = 'snickers snickers snickers snickers';
 
         $this->post(route('notes.store', [
-            'retro_session_id' => $this->retroSession->id,
+            'session_id' => $this->session->id,
             'retro_column' => 'wentWell',
             'content' => $content,
         ]))->assertSuccessful();

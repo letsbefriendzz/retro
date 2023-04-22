@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('retro_sessions', function (Blueprint $table) {
+        Schema::create('sessions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('slug')->unique()->nullable(false);
             $table->timestamps();
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('retro_sessions');
+        Schema::dropIfExists('sessions');
     }
 };

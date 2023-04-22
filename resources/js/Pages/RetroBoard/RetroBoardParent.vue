@@ -1,7 +1,7 @@
 <template>
     <div>
         <RetroBoard
-            :retro-session="this.retroSession"
+            :retro-session="this.session"
             :retro-notes="this.localRetroNotes"
             class="p-6"
         />
@@ -18,7 +18,7 @@ export default {
         RetroBoard,
     },
     props: {
-        retroSession: {
+        session: {
             type: Object,
             required: true,
         },
@@ -42,7 +42,7 @@ export default {
     },
     computed: {
         pusherChannelName() {
-            return `retro-session-${this.retroSession.id}`
+            return `retro-session-${this.session.id}`
         }
     },
     watch: {

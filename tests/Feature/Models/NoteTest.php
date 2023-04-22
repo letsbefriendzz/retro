@@ -3,19 +3,19 @@
 namespace Tests\Feature\Models;
 
 use App\Models\Note;
-use App\Models\RetroSession;
+use App\Models\Session;
 use Tests\TestCase;
 
 class NoteTest extends TestCase
 {
-    public function test_it_belongs_to_a_retro_session()
+    public function test_it_belongs_to_a_session()
     {
-        $retroSession = RetroSession::factory()->create();
+        $session = Session::factory()->create();
         $note = Note::factory()->create([
-            'retro_session_id' => $retroSession->id,
+            'session_id' => $session->id,
         ]);
 
-        $this->assertInstanceOf(RetroSession::class, $note->retroSession);
-        $this->assertEquals($retroSession->id, $note->retroSession->id);
+        $this->assertInstanceOf(Session::class, $note->session);
+        $this->assertEquals($session->id, $note->session->id);
     }
 }

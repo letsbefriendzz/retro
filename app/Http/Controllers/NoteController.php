@@ -15,12 +15,12 @@ class NoteController extends Controller
     {
         $validated = $request->validated();
         $note = Note::query()->create([
-            'retro_session_id' => $validated['retro_session_id'],
+            'session_id' => $validated['session_id'],
             'retro_column' => $validated['retro_column'],
             'content' => $validated['content'],
         ]);
 
-        NoteCreated::dispatch($validated['retro_session_id'], $note);
+        NoteCreated::dispatch($validated['session_id'], $note);
 
         return new NoteResource($note);
     }
@@ -43,14 +43,14 @@ class NoteController extends Controller
 
     public function destroy(Note $note): JsonResponse
     {
-        $retroSession = $note->retroSession;
+        $session = $note->session;
         $delete = $note->delete();
 
         if (!$delete) {
             return response()->json([], 422);
         }
 
-        NoteDeleted::dispatch($retroSession->id, $note->id);
+        NoteDeleted::dispatch($session->id, $note->id);
 
         return response()->json([
             'deleted' => $delete,
