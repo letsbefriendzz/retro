@@ -12,9 +12,9 @@ class RetroSession extends Model
 
     protected $guarded = [];
 
-    public function retroNotes(): HasMany
+    public function notes(): HasMany
     {
-        return $this->hasMany(RetroNote::class);
+        return $this->hasMany(Note::class);
     }
 
     public function unusedColours()

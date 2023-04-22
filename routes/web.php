@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\RetroNoteController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\RetroSessionController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Note;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ Route::get('/', fn() => auth()->user());
 Route::get('/{sessionSlug}', [RetroSessionController::class, 'show']);
 Route::get('/snickers/snickers', [RetroSessionController::class, 'snickers']);
 
-Route::apiResource('retroNotes', RetroNoteController::class);
+Route::apiResource('notes', NoteController::class);
 
 Route::prefix('login')->group(function () { // todo restructure this grouping yuckiness
     Route::prefix('github')->group(function () {

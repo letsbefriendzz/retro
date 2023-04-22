@@ -22,13 +22,13 @@ export default {
             type: Object,
             required: true,
         },
-        retroNotes: {
+        notes: {
             type: Array,
         },
     },
     data() {
         return {
-            localRetroNotes: [...this.retroNotes],
+            localRetroNotes: [...this.notes],
             pusher: null,
         }
     },
@@ -46,8 +46,8 @@ export default {
         }
     },
     watch: {
-        retroNotes: function (retroNotes) {
-            this.localRetroNotes = [...retroNotes]
+        notes: function (notes) {
+            this.localRetroNotes = [...notes]
         }
     },
     mounted() {

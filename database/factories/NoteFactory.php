@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\RetroNote;
+use App\Models\Note;
 use App\Models\RetroSession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory
  */
-class RetroNoteFactory extends Factory
+class NoteFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -8,20 +8,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RetroNoteDeleted implements ShouldBroadcast
+class NoteDeleted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private int $retroSessionId;
-    private $retroNoteId;
+    private $noteId;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($retroSessionId, $retroNoteId)
+    public function __construct($retroSessionId, $noteId)
     {
         $this->retroSessionId = $retroSessionId;
-        $this->retroNoteId = $retroNoteId;
+        $this->noteId = $noteId;
     }
 
     /**
@@ -40,7 +40,7 @@ class RetroNoteDeleted implements ShouldBroadcast
     {
         return [
             'note' => [
-                'id' => $this->retroNoteId
+                'id' => $this->noteId
             ],
         ];
     }
