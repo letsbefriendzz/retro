@@ -24,9 +24,9 @@ class LoginController extends Controller
 
         // TODO - getAvatar, and others, are not returning correct values. Figure that out!
         if (!$user) {
-            $user = User::query()->create([
+            $user = User::query()->create([ // todo fix this
                 'name' => $githubUser->getName(),
-                'nickname' => $githubUser->getNickname(),
+                'nickname' => $githubUser->nickname ?: null,
                 'email' => $githubUser->getEmail(),
                 'github_id' => $githubUser->getId(),
                 'avatar' => $githubUser->getAvatar(),

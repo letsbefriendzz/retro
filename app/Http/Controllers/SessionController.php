@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\Session;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,6 +31,7 @@ class SessionController extends Controller
         return Inertia::render('RetroBoard/RetroBoardParent', [
             'session' => $session,
             'notes' => $session->notes,
+            'user' => (new UserResource(auth()->user()))->toArray(null), // todo not call ->toArray() directly
         ]);
     }
 }

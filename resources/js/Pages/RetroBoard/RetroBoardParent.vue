@@ -1,21 +1,28 @@
 <template>
     <div>
+        <RetroBoardHeader
+            :slug="session.slug"
+            :user="this.user"
+        />
         <RetroBoard
             :session="this.session"
-            :notes="this.localRetroNotes"
-            class="p-6"
+            :notes="this.localNotes"
+            :user="this.user"
+            class="px-6"
         />
     </div>
 </template>
 
 <script>
 import RetroBoard from "./RetroBoard.vue";
+import RetroBoardHeader from "./RetroBoardHeader.vue";
 import Pusher from "pusher-js";
 
 export default {
     name: "RetroBoardParent",
     components: {
         RetroBoard,
+        RetroBoardHeader,
     },
     props: {
         session: {
@@ -25,29 +32,33 @@ export default {
         notes: {
             type: Array,
         },
+        user: {
+            type: Object,
+            required: false,
+        }
     },
     data() {
         return {
-            localRetroNotes: [...this.notes],
+            localNotes: [...this.notes],
             pusher: null,
         }
     },
     methods: {
         noteReceived(pusherEvent) {
-            this.localRetroNotes.push(pusherEvent.note)
+            this.localNotes.push(pusherEvent.note)
         },
         noteDeleted(pusherEvent) {
-            this.localRetroNotes = [...this.localRetroNotes.filter(note => pusherEvent.note.id !== note.id)]
+            this.localNotes = [...this.localNotes.filter(note => pusherEvent.note.id !== note.id)]
         },
     },
     computed: {
         pusherChannelName() {
             return `retro-session-${this.session.id}`
-        }
+        },
     },
     watch: {
         notes: function (notes) {
-            this.localRetroNotes = [...notes]
+            this.localNotes = [...notes]
         }
     },
     mounted() {
