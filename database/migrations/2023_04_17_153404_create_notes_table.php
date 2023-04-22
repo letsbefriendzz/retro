@@ -19,7 +19,7 @@ return new class extends Migration
                 'toImprove',
                 'toDiscuss',
             ])->nullable(false);
-            $table->unsignedBigInteger('session_idr')->nullable(false);
+            $table->unsignedBigInteger('session_id')->nullable(false);
             $table->foreign('session_id')->references('id')->on('sessions');
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('retro_notes');
+        Schema::dropIfExists('notes');
     }
 };

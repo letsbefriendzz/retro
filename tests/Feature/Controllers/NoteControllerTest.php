@@ -20,7 +20,7 @@ class NoteControllerTest extends TestCase
         $this->session = Session::factory()->create();
     }
 
-    public function test_it_can_create_a_retro_note()
+    public function test_it_can_create_a_note()
     {
         $content = 'snickers snickers snickers snickers';
 
@@ -36,7 +36,7 @@ class NoteControllerTest extends TestCase
         ]);
     }
 
-    public function test_it_can_update_a_retro_note()
+    public function test_it_can_update_a_note()
     {
         $note = Note::factory()->create([
             'session_id' => $this->session->id,
@@ -54,7 +54,7 @@ class NoteControllerTest extends TestCase
         ]);
     }
 
-    public function test_it_can_delete_a_retro_note()
+    public function test_it_can_delete_a_note()
     {
         $note = Note::factory()->create([
             'session_id' => $this->session->id,
@@ -70,7 +70,7 @@ class NoteControllerTest extends TestCase
         ]);
     }
 
-    public function test_it_dispatches_retro_note_deleted_event()
+    public function test_it_dispatches_note_deleted_event()
     {
         Event::fake();
 
@@ -90,7 +90,7 @@ class NoteControllerTest extends TestCase
         Event::assertDispatched(NoteDeleted::class);
     }
 
-    public function test_it_dispatches_retro_note_created_event()
+    public function test_it_dispatches_note_created_event()
     {
         Event::fake();
 

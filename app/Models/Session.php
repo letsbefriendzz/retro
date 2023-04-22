@@ -20,9 +20,5 @@ class Session extends Model
     public function unusedColours()
     {
         return [];
-        return array_diff(
-            RetroUser::DAISY_UI_COLOURS,
-            $this->retroUsers()->whereNotNull('colour')->pluck('colour')->toArray(),
-        );
     }
 }

@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class SessionTest extends TestCase
 {
-    public function test_it_has_many_retro_notes()
+    public function test_it_has_many_notes()
     {
         $session = Session::factory()->create();
         $note1 = Note::factory()->create([

@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col h-screen">
-        <RetroBoardHeader :slug="retroSession.slug"/>
+        <RetroBoardHeader :slug="session.slug"/>
         <div class="flex flex-grow justify-center content-evenly">
             <ul v-for="column in columns"
                 class="flex-grow flex justify-center w-1/3 "
@@ -8,7 +8,7 @@
                 <RetroColumn
                     :columnOptions="column"
                     :notes="notesByColumn[column.retro_column] || []"
-                    :retroSession="retroSession"/>
+                    :session="session"/>
             </ul>
         </div>
     </div>
@@ -25,7 +25,7 @@ export default {
         RetroBoardHeader,
     },
     props: {
-        retroSession: {
+        session: {
             type: Object,
             required: true,
         },

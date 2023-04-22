@@ -1,7 +1,7 @@
 <template>
     <div>
         <RetroBoard
-            :retro-session="this.session"
+            :session="this.session"
             :retro-notes="this.localRetroNotes"
             class="p-6"
         />

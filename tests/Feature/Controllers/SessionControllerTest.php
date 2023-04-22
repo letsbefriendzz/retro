@@ -22,7 +22,7 @@ class SessionControllerTest extends TestCase
 
         $this->assertDatabaseHas('sessions', ['slug' => 'snickers']);
 
-        $this->get('/snickers')
+        $this->get('/snickers') // todo test harder
             ->assertSuccessful();
     }
 }

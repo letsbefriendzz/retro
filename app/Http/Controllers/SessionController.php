@@ -29,7 +29,7 @@ class SessionController extends Controller
 
         return Inertia::render('RetroBoard/RetroBoardParent', [
             'session' => $session,
-            'notes' => $session->notes, // todo fe refactor
+            'notes' => $session->notes,
         ]);
     }
 }
