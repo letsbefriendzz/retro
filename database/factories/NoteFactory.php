@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Note;
-use App\Models\RetroSession;
+use App\Models\Session;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,6 @@ class NoteFactory extends Factory
     public function definition(): array
     {
         return [
-//            'retro_session_id' => RetroSession::factory(),
             'retro_column' => 'wentWell',
             'content' => $this->faker->words(5, true),
         ];

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\NoteController;
-use App\Http\Controllers\RetroSessionController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Note;
@@ -19,8 +19,8 @@ use App\Models\Note;
 
 Route::get('/', fn() => auth()->user());
 
-Route::get('/{sessionSlug}', [RetroSessionController::class, 'show']);
-Route::get('/snickers/snickers', [RetroSessionController::class, 'snickers']);
+Route::get('/{sessionSlug}', [SessionController::class, 'show']);
+Route::get('/snickers/snickers', [SessionController::class, 'snickers']);
 
 Route::apiResource('notes', NoteController::class);
 

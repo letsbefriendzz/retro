@@ -21,8 +21,8 @@ class Note extends Model
 
     protected $guarded = [];
 
-    public function retroSession(): BelongsTo
+    public function session(): BelongsTo
     {
-        return $this->belongsTo(RetroSession::class);
+        return $this->belongsTo(Session::class);
     }
 }

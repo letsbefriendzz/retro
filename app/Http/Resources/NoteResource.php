@@ -18,7 +18,7 @@ class NoteResource extends JsonResource
             "id" => $this->id,
             "content" => $this->content,
             "retro_column" => $this->retro_column,
-            "retro_session_id" => $this->retro_session_id,
+            "session_id" => $this->session_id,
             "updated_at" => $this->updated_at,
             "created_at" => $this->created_at,
         ];

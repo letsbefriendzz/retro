@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\RetroSession>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Session>
  */
-class RetroSessionFactory extends Factory
+class SessionFactory extends Factory
 {
     /**
      * Define the model's default state.

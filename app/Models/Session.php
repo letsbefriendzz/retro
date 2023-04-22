@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class RetroSession extends Model
+class Session extends Model
 {
     use HasFactory;
 
@@ -20,9 +20,5 @@ class RetroSession extends Model
     public function unusedColours()
     {
         return [];
-        return array_diff(
-            RetroUser::DAISY_UI_COLOURS,
-            $this->retroUsers()->whereNotNull('colour')->pluck('colour')->toArray(),
-        );
     }
 }

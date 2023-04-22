@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\RetroSession;
+use App\Models\Session;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NoteRequest extends FormRequest
@@ -15,11 +15,11 @@ class NoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'retro_session_id' => [
+            'session_id' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if (!RetroSession::query()->find($value)) {
-                        $fail('A RetroSession with the ID ' . $value . ' does not exist.');
+                    if (!Session::query()->find($value)) {
+                        $fail('A Session with the ID ' . $value . ' does not exist.');
                     }
                 },
             ],
