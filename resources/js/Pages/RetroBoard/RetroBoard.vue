@@ -29,7 +29,7 @@ export default {
             type: Object,
             required: true,
         },
-        retroNotes: {
+        notes: {
             type: Array,
         },
     },
@@ -57,7 +57,7 @@ export default {
     methods: {},
     computed: {
         notesByColumn() {
-            return this.retroNotes.reduce((notesByColumn, note) => {
+            return this.notes.reduce((notesByColumn, note) => {
                 if (!notesByColumn[note.retro_column]) {
                     notesByColumn[note.retro_column] = [];
                 }

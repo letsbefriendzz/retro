@@ -2,7 +2,7 @@
     <div>
         <RetroBoard
             :session="this.session"
-            :retro-notes="this.localRetroNotes"
+            :notes="this.localRetroNotes"
             class="p-6"
         />
     </div>
