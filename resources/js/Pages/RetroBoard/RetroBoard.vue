@@ -1,6 +1,5 @@
 <template>
     <div class="flex flex-col h-screen">
-        <RetroBoardHeader :slug="session.slug"/>
         <div class="flex flex-grow justify-center content-evenly">
             <ul v-for="column in columns"
                 class="flex-grow flex justify-center w-1/3 "
@@ -16,13 +15,11 @@
 
 <script>
 import RetroColumn from "./RetroColumn.vue";
-import RetroBoardHeader from "./RetroBoardHeader.vue";
 
 export default {
     name: "RetroBoard",
     components: {
         RetroColumn,
-        RetroBoardHeader,
     },
     props: {
         session: {
@@ -31,6 +28,10 @@ export default {
         },
         notes: {
             type: Array,
+        },
+        user: {
+            type: Object,
+            required: true,
         },
     },
     data() {

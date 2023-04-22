@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('github_id');
+            $table->string('github_url')->nullable();
             $table->string('name');
             $table->string('nickname')->nullable();
             $table->string('avatar')->nullable();
