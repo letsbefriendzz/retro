@@ -15,20 +15,12 @@ class NoteDeleted implements ShouldBroadcast
     private int $sessionId;
     private $noteId;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct($sessionId, $noteId)
     {
         $this->sessionId = $sessionId;
         $this->noteId = $noteId;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, Channel>
-     */
     public function broadcastOn(): array
     {
         return [
