@@ -19,18 +19,25 @@ use App\Models\Note;
 |
 */
 
-Route::apiResource('columns', ColumnController::class)->only(['store', 'show', 'update', 'destroy']);
-Route::apiResource('notes', NoteController::class)->only(['store', 'show', 'update', 'destroy']);
+Route::middleware('auth')->group(function () {
+    Route::apiResource('columns', ColumnController::class)->only(['store', 'show', 'update', 'destroy']);
+    Route::apiResource('notes', NoteController::class)->only(['store', 'show', 'update', 'destroy']);
 
-Route::get('/{sessionSlug}', [SessionController::class, 'show']);
+    Route::get('/{sessionSlug}', [SessionController::class, 'show']);
 
-Route::get('logout', [LogoutController::class, 'logout']);
+    Route::get('logout', [LogoutController::class, 'logout']);
+});
+
+
 Route::prefix('login')->group(function () { // todo restructure this grouping yuckiness
     Route::prefix('github')->group(function () {
         Route::get('callback', [LoginController::class, 'handleProviderCallback'])
             ->name('login.github.callback');
-        Route::get('/', [LoginController::class, 'redirectToProvider'])->name('login.github');
+        Route::get('/', [LoginController::class, 'redirectToProvider'])
+            ->name('login.github');
     });
+    Route::get('/', [LoginController::class, 'redirect'])
+        ->name('login');
 });
 
-Route::get('/', fn() => auth()->user())->name('home');
+Route::get('/', fn() => 'snickers')->name('home');

@@ -7,6 +7,7 @@ use App\Events\NoteDeleted;
 use App\Models\Column;
 use App\Models\Note;
 use App\Models\Session;
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +19,7 @@ class NoteControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->withoutExceptionHandling();
+        $this->actingAs(User::factory()->create());
         $this->session = Session::factory()->create();
         $this->column = Column::factory()->create(['session_id' => $this->session->id]);
     }
@@ -111,4 +112,6 @@ class NoteControllerTest extends TestCase
 
         Event::assertDispatched(NoteCreated::class);
     }
+
+    // todo test for authentication
 }

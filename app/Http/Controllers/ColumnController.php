@@ -23,8 +23,6 @@ class ColumnController extends Controller
      */
     public function store(Request $request): ColumnResource
     {
-        $this->authCheck();
-
         $validated = $request->validate([
             'title' => 'required',
             'session_id' => [
@@ -52,8 +50,6 @@ class ColumnController extends Controller
      */
     public function destroy(Request $request, int $columnId): JsonResponse
     {
-        $this->authCheck();
-
         $request->validate([
             'session_id' => [
                 'required',
@@ -74,15 +70,5 @@ class ColumnController extends Controller
         return response()->json([
             'deleted' => $deleted,
         ]);
-    }
-
-    /**
-     * @throws AuthenticationException
-     */
-    private function authCheck()
-    {
-        if (!auth()->check()) {
-            throw new AuthenticationException();
-        }
     }
 }
