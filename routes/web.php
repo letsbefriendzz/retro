@@ -1,12 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ColumnController;
-use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Note;
 
 /*
 |--------------------------------------------------------------------------
