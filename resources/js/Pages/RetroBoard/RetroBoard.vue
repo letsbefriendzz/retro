@@ -1,8 +1,8 @@
 <template>
-    <div class="flex flex-col h-screen">
+    <div class="flex h-screen">
         <div class="flex flex-grow justify-center content-evenly">
             <ul v-for="column in columns"
-                class="flex-grow flex justify-center w-1/3 "
+                class="flex justify-center w-1/3"
             >
                 <RetroColumn
                     :columnOptions="column"

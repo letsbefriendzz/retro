@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="flex flex-col items-stretch	">
         <RetroBoardHeader
-            :slug="session.slug"
+            :slug="this.session.slug"
             :user="this.user"
         />
         <RetroBoard
