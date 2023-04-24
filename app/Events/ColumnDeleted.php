@@ -2,25 +2,23 @@
 
 namespace App\Events;
 
-use App\Http\Resources\NoteResource;
-use App\Models\Note;
+use App\Models\Column;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NoteCreated implements ShouldBroadcast
+class ColumnDeleted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private int $sessionId;
-    private Note $note;
+    private int $columnId;
 
-    public function __construct($sessionId, $note)
+    public function __construct($sessionId, $columnId)
     {
         $this->sessionId = $sessionId;
-        $this->note = $note;
+        $this->columnId = $columnId;
     }
 
     public function broadcastOn(): array
@@ -33,12 +31,14 @@ class NoteCreated implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'note' => new NoteResource($this->note),
+            'column' => [
+                'id' => $this->columnId,
+            ],
         ];
     }
 
     public function broadcastAs()
     {
-        return 'retro-note-created';
+        return 'column-deleted';
     }
 }

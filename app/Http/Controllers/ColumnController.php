@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ColumnRequest;
+use App\Events\ColumnCreated;
+use App\Events\ColumnDeleted;
 use App\Http\Resources\ColumnResource;
 use App\Models\Column;
 use App\Models\Session;
@@ -41,28 +42,34 @@ class ColumnController extends Controller
             'session_id' => $validated['session_id'],
         ]);
 
+        ColumnCreated::dispatch($request->input('session_id'), $column);
+
         return new ColumnResource($column);
     }
 
     /**
      * @throws AuthenticationException
      */
-    public function destroy(Request $request): JsonResponse
+    public function destroy(Request $request, int $columnId): JsonResponse
     {
         $this->authCheck();
 
         $request->validate([
-            'column_id' => [
+            'session_id' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if (!Column::query()->find($value)) {
-                        $fail('A Column with the ID ' . $value . ' does not exist.');
+                    if (!Session::query()->find($value)) {
+                        $fail('A Session with the ID ' . $value . ' does not exist.');
                     }
                 },
-            ],
+            ]
         ]);
 
-        $deleted = Column::query()->where('column_id', $request->input('column_id'))->delete();
+        $deleted = Column::query()->where('id', $columnId)->delete();
+
+        if ($deleted) {
+            ColumnDeleted::dispatch($request->input('session_id'), $columnId);
+        }
 
         return response()->json([
             'deleted' => $deleted,
