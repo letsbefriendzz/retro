@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('content')->nullable(false);
-            $table->enum('retro_column', [
-                'wentWell',
-                'toImprove',
-                'toDiscuss',
-            ])->nullable(false);
-            $table->unsignedBigInteger('session_id')->nullable(false);
+            $table->longText('content');
+            $table->unsignedBigInteger('column_id');
+            $table->foreign('column_id')->references('id')->on('columns');
+            $table->unsignedBigInteger('session_id');
             $table->foreign('session_id')->references('id')->on('sessions');
             $table->timestamps();
         });

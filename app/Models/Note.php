@@ -13,16 +13,15 @@ class Note extends Model
 {
     use HasFactory;
 
-    public const RETRO_COLUMNS = [
-        'wentWell',
-        'toImprove',
-        'toDiscuss',
-    ];
-
     protected $guarded = [];
 
     public function session(): BelongsTo
     {
         return $this->belongsTo(Session::class);
+    }
+
+    public function column(): BelongsTo
+    {
+        return $this->belongsTo(Column::class);
     }
 }

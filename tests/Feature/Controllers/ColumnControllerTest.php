@@ -32,7 +32,7 @@ class ColumnControllerTest extends TestCase
 
     public function test_it_deletes_columns()
     {
-        $column = Column::factory()->create();
+        $column = Column::factory()->create(['session_id' => $this->session->id]);
 
         $this->delete(route('columns.destroy', $column->id));
 

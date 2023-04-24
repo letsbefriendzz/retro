@@ -18,8 +18,8 @@ export default {
     emits: ['newNoteCreated'],
     components: {},
     props: {
-        retroColumn: {
-            type: String,
+        columnId: {
+            type: Number,
         },
     },
     data() {
@@ -63,7 +63,7 @@ export default {
             return this.newNoteText.length > 0 && this.newNoteText.length < 255
         },
         textareaId() {
-            return `textarea-${this.retroColumn}`
+            return `textarea-${this.columnId}`
         }
     },
 }

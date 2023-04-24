@@ -19,7 +19,6 @@ class NoteFactory extends Factory
     public function definition(): array
     {
         return [
-            'retro_column' => 'wentWell',
             'content' => $this->faker->words(5, true),
         ];
     }

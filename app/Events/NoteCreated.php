@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\NoteResource;
 use App\Models\Note;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -40,7 +41,7 @@ class NoteCreated implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'note' => [...$this->note->toArray()],
+            'note' => new NoteResource($this->note),
         ];
     }
 

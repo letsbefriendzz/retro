@@ -16,7 +16,7 @@ class NoteController extends Controller
         $validated = $request->validated();
         $note = Note::query()->create([
             'session_id' => $validated['session_id'],
-            'retro_column' => $validated['retro_column'],
+            'column_id' => $validated['column_id'],
             'content' => $validated['content'],
         ]);
 

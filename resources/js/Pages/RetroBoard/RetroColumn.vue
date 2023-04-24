@@ -9,7 +9,7 @@
             </div>
         </div>
         <div id="textArea" class="footer-center absolute bottom-0 left-0 w-full p-3">
-            <NoteTextArea @newNoteCreated="newNoteCreated" :retro-column="this.columnOptions.retro_column"/>
+            <NoteTextArea @newNoteCreated="newNoteCreated" :column-id="this.columnOptions.id"/>
         </div>
     </div>
 </template>
@@ -49,13 +49,13 @@ export default {
         newNoteCreated: throttle(function (event) {
             const newNote = {
                 session_id: this.session.id,
-                retro_column: this.columnOptions.retro_column,
+                column_id: this.columnOptions.id,
                 content: event.newNoteText,
             }
             axios.post(routes.notes.store, newNote).catch(() => {
                 this.localRetroNotes = this.localRetroNotes.filter((note) => {
                     return note.content !== event.newNoteText // this will remove notes with the same text :/
-                        && note.retro_column !== this.columnOptions.retro_column
+                        && note.column_id !== this.columnOptions.column_id
                 })
             })
             this.localRetroNotes.push(newNote);

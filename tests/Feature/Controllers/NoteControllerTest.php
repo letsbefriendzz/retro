@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers;
 
 use App\Events\NoteCreated;
 use App\Events\NoteDeleted;
+use App\Models\Column;
 use App\Models\Note;
 use App\Models\Session;
 use Illuminate\Support\Facades\Event;
@@ -12,12 +13,14 @@ use Tests\TestCase;
 class NoteControllerTest extends TestCase
 {
     private Session $session;
+    private Column $column;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->withoutExceptionHandling();
         $this->session = Session::factory()->create();
+        $this->column = Column::factory()->create(['session_id' => $this->session->id]);
     }
 
     public function test_it_can_create_a_note()
@@ -26,12 +29,13 @@ class NoteControllerTest extends TestCase
 
         $this->post(route('notes.store', [
             'session_id' => $this->session->id,
-            'retro_column' => 'wentWell',
+            'column_id' => $this->column->id,
             'content' => $content,
         ]))->assertSuccessful();
 
         $this->assertDatabaseHas('notes', [
             'session_id' => $this->session->id,
+            'column_id' => $this->column->id,
             'content' => $content,
         ]);
     }
@@ -40,11 +44,12 @@ class NoteControllerTest extends TestCase
     {
         $note = Note::factory()->create([
             'session_id' => $this->session->id,
+            'column_id' => $this->column->id,
         ]);
 
         $this->putJson(route('notes.update', $note), [
             'session_id' => $this->session->id,
-            'retro_column' => 'wentWell',
+            'column_id' => $this->column->id,
             'content' => 'snickers'
         ])->assertSuccessful();
 
@@ -58,6 +63,7 @@ class NoteControllerTest extends TestCase
     {
         $note = Note::factory()->create([
             'session_id' => $this->session->id,
+            'column_id' => $this->column->id,
             'content' => 'snickers',
         ]);
 
@@ -76,6 +82,7 @@ class NoteControllerTest extends TestCase
 
         $note = Note::factory()->create([
             'session_id' => $this->session->id,
+            'column_id' => $this->column->id,
             'content' => 'snickers',
         ]);
 
@@ -98,7 +105,7 @@ class NoteControllerTest extends TestCase
 
         $this->post(route('notes.store', [
             'session_id' => $this->session->id,
-            'retro_column' => 'wentWell',
+            'column_id' => $this->column->id,
             'content' => $content,
         ]))->assertSuccessful();
 
