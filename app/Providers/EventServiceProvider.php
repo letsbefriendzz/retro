@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\ColumnCreated;
+use App\Events\ColumnDeleted;
 use App\Events\NoteCreated;
+use App\Events\NoteDeleted;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -19,9 +21,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        NoteCreated::class => [
-
-        ],
+        NoteCreated::class => [],
+        NoteDeleted::class => [],
+        ColumnCreated::class => [],
+        ColumnDeleted::class => [],
     ];
 
     /**

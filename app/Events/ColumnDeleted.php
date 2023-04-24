@@ -2,13 +2,13 @@
 
 namespace App\Events;
 
-use App\Models\Column;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ColumnDeleted
+class ColumnDeleted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,7 +24,7 @@ class ColumnDeleted
     public function broadcastOn(): array
     {
         return [
-            new Channel("retro-session-{$this->sessionId}"),
+            new Channel("retro-session-$this->sessionId"),
         ];
     }
 

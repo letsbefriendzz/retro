@@ -7,22 +7,14 @@ use App\Events\ColumnDeleted;
 use App\Http\Resources\ColumnResource;
 use App\Models\Column;
 use App\Models\Session;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ColumnController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * @throws AuthenticationException
-     */
     public function store(Request $request): ColumnResource
     {
+        // todo introduce constraint for columns with the same session_id and title
         $validated = $request->validate([
             'title' => 'required',
             'session_id' => [
@@ -45,9 +37,6 @@ class ColumnController extends Controller
         return new ColumnResource($column);
     }
 
-    /**
-     * @throws AuthenticationException
-     */
     public function destroy(Request $request, int $columnId): JsonResponse
     {
         $request->validate([

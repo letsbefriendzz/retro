@@ -10,7 +10,7 @@
             </div>
             <div class="w-full hidden text-xl uppercase lg:flex justify-end lg:items-center lg:w-auto text-center">
                 <div class="avatar" v-if="userNotNull">
-                    <div class="mr-4 w-12 h-12 relative w-14 rounded-full">
+                    <div class="mr-4 w-12 h-12 relative rounded-full">
                         <a :href="user.github_url"><img :src="user.avatar" alt="snickers"/></a>
                     </div>
                     <a href="/logout"
