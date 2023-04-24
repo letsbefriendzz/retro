@@ -8,6 +8,7 @@
             :session="this.session"
             :notes="this.localNotes"
             :user="this.user"
+            :columns="this.columns"
             class="px-6"
         />
     </div>
@@ -31,11 +32,16 @@ export default {
         },
         notes: {
             type: Array,
+            required: false,
+        },
+        columns: {
+            type: Object,
+            required: true,
         },
         user: {
             type: Object,
             required: false,
-        }
+        },
     },
     data() {
         return {

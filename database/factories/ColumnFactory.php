@@ -14,7 +14,6 @@ class ColumnFactory extends Factory
     {
         return [
             'title' => $this->faker->word,
-            'session_id' => Session::factory(),
         ];
     }
 }

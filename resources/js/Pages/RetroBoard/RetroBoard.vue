@@ -6,7 +6,7 @@
             >
                 <RetroColumn
                     :columnOptions="column"
-                    :notes="notesByColumn[column.retro_column] || []"
+                    :notes="notesForColumn(column.id)"
                     :session="session"/>
             </ul>
         </div>
@@ -33,40 +33,17 @@ export default {
             type: Object,
             required: true,
         },
-    },
-    data() {
-        return {
-            columns: [
-                {
-                    retro_column: 'wentWell',
-                    title: 'Went Well',
-                    description: 'What went well?',
-                },
-                {
-                    retro_column: 'toImprove',
-                    title: 'To Improve',
-                    description: 'What could be improved?',
-                },
-                {
-                    retro_column: 'toDiscuss',
-                    title: 'To Discuss',
-                    description: 'What should we discuss further?',
-                }
-            ],
+        columns: {
+            type: Object,
+            required: true,
         }
     },
-    methods: {},
-    computed: {
-        notesByColumn() {
-            return this.notes.reduce((notesByColumn, note) => {
-                if (!notesByColumn[note.retro_column]) {
-                    notesByColumn[note.retro_column] = [];
-                }
-                notesByColumn[note.retro_column].push(note);
-                return notesByColumn;
-            }, {});
-        },
+    methods: {
+        notesForColumn(columnId) {
+            return this.notes.filter(n => n.column_id === columnId)
+        }
     },
+    computed: {},
     watch: {}
 }
 </script>

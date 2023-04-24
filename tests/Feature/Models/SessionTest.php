@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\Column;
 use App\Models\Note;
 use App\Models\Session;
 use Tests\TestCase;
@@ -11,10 +12,13 @@ class SessionTest extends TestCase
     public function test_it_has_many_notes()
     {
         $session = Session::factory()->create();
+        $column = Column::factory()->create(['session_id' => $session->id]);
         $note1 = Note::factory()->create([
+            'column_id' => $column->id,
             'session_id' => $session->id,
         ]);
         $note2 = Note::factory()->create([
+            'column_id' => $column->id,
             'session_id' => $session->id,
         ]);
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ColumnResource;
+use App\Http\Resources\SessionResource;
 use App\Http\Resources\UserResource;
 use App\Models\Session;
 use Inertia\Inertia;
@@ -32,17 +34,20 @@ class SessionController extends Controller
             return [
                 "id" => $note['id'],
                 "content" => $note['content'],
-                "retro_column" => $note['retro_column'],
+                "column_id" => $note['column_id'],
                 "session_id" => $note['session_id'],
                 "created_at" => $note['created_at'],
                 "updated_at" => $note['updated_at'],
             ];
         });
 
-        return Inertia::render('RetroBoard/RetroBoardParent', [
-            'session' => $session,
-            'notes' => $session->notes,
-            'user' => (new UserResource(auth()->user()))->toArray(null), // todo not call ->toArray() directly
-        ]);
+        $renderData = [
+            'session' => (new SessionResource($session)),
+            'notes' => $session->notes, // todo NotesResource
+            'user' => (new UserResource(auth()->user())),
+            'columns' => ColumnResource::collection($session->columns)->collection,
+        ];
+
+        return Inertia::render('RetroBoard/RetroBoardParent', $renderData);
     }
 }
