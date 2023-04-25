@@ -14,7 +14,6 @@ class ColumnController extends Controller
 {
     public function store(StoreColumnRequest $request): ColumnResource
     {
-        // todo introduce constraint for columns with the same session_id and title
         $validated = $request->validated();
 
         $column = Column::query()->create([
