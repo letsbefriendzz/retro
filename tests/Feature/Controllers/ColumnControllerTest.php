@@ -48,6 +48,25 @@ class ColumnControllerTest extends TestCase
             ->assertStatus(302); // todo i'd like a status other than 302 when we fail to find a column...
     }
 
+    public function test_it_cannot_create_duplicate_column_titles_for_a_session()
+    {
+        $title = 'snickers';
+        $this->session->columns()->create(['title' => $title]);
+
+        $this->post(route('columns.store'), [
+            'title' => $title,
+            'session_id' => $this->session->id,
+        ])
+            ->assertUnprocessable()
+            ->assertJsonFragment([
+                'errors' => [
+                    'session_id' => [
+                        'A column with the title ' . $title . ' already exists in session #' . $this->session->id . '.'
+                    ]
+                ],
+            ]);
+    }
+
     public function test_it_dispatches_column_created()
     {
         Event::fake();
