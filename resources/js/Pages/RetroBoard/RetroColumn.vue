@@ -24,6 +24,7 @@ import NoteTextArea from "../Input/NoteTextArea.vue";
 import RetroNote from "./RetroNote.vue";
 import {routes} from "../routes";
 import {throttle} from 'lodash';
+import axios from "axios";
 
 export default {
     name: "RetroColumn",

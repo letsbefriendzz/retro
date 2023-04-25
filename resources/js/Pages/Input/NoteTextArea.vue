@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row justify-center">
         <textarea
-            :id="textareaId"
+            ref="noteTextarea"
             v-model="newNoteText"
             class="resize-none textarea flex-grow"
             @keyup.enter="newNoteTextClick"
@@ -45,13 +45,13 @@ export default {
             }
         },
         addTextareaClass(cssClass) {
-            document.querySelector(`#${this.textareaId}`).classList.add(cssClass)
+            this.$refs.noteTextarea.classList.add(cssClass)
         },
         removeTextareaClass(cssClass) {
-            document.querySelector(`#${this.textareaId}`).classList.remove(cssClass)
+            this.$refs.noteTextarea.classList.remove(cssClass)
         },
         textareaHasClass(cssClass) {
-            return document.querySelector(`#${this.textareaId}`).classList.contains(cssClass)
+            return this.$refs.noteTextarea.classList.contains(cssClass)
         },
         clearAuxiliaryTextareaClasses() {
             this.removeTextareaClass('textarea-error')

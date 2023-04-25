@@ -1,10 +1,10 @@
 <template>
     <nav class="p-4 bg-blue-600">
         <div class="container flex items-center mx-auto justify-between flex-wrap">
-            <div v-if="slugNotNull">
+            <div v-if="!slugNotNull">
                 <h4 class="text-white mx-3 text-4xl font-semibold">Vehikl Retro Board</h4>
             </div>
-            <div v-if="!slugNotNull">
+            <div v-if="slugNotNull">
                 <h4 class="text-white mx-3 text-sm font-semibold">Vehikl Retro Board</h4>
                 <h1 class="text-white mx-3 text-3xl font-semibold">{{ this.slug }}</h1>
             </div>
@@ -53,7 +53,7 @@ export default {
             return !!this.user
         },
         slugNotNull() {
-
+            return !!this.slug
         }
     },
     watch: {}

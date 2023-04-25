@@ -9,7 +9,6 @@
                     :notes="notesForColumn(column.id)"
                     :session="session"
                     @deleteColumn="this.deleteColumn"
-                    @addColumn="this.addColumn"
                 />
             </ul>
             <div id="modal">
@@ -21,6 +20,7 @@
                         <label class="container flex items-center mx-auto justify-between flex-wrap">
                             <input
                                 id="titleText"
+                                ref="titleText"
                                 type="text"
                                 placeholder="Title"
                                 class="input input-bordered w-full max-w-xs"
@@ -39,6 +39,7 @@
 <script>
 import RetroColumn from "./RetroColumn.vue";
 import {routes} from "../routes";
+import axios from 'axios';
 
 export default {
     name: "RetroBoard",
@@ -72,8 +73,8 @@ export default {
             return this.notes.filter(n => n.column_id === columnId)
         },
         addColumn(event) {
-            const title = document.querySelector('#titleText').value
-            document.querySelector('#titleText').value = ''
+            const title = this.$refs.titleText.value;
+            this.$refs.titleText.value = '';
             const newColumn = {
                 session_id: this.session.id,
                 title: title,
