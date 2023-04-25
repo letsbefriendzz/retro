@@ -18,16 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->group(function () {
-    Route::apiResource('columns', ColumnController::class)->only(['store', 'show', 'update', 'destroy']);
-    Route::apiResource('notes', NoteController::class)->only(['store', 'show', 'update', 'destroy']);
-
-    Route::get('/{sessionSlug}', [SessionController::class, 'show']);
-
-    Route::get('logout', [LogoutController::class, 'logout']);
-});
-
-
 Route::prefix('login')->group(function () { // todo restructure this grouping yuckiness
     Route::prefix('github')->group(function () {
         Route::get('callback', [LoginController::class, 'handleProviderCallback'])
@@ -37,6 +27,16 @@ Route::prefix('login')->group(function () { // todo restructure this grouping yu
     });
     Route::get('/', [LoginController::class, 'redirect'])
         ->name('login');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('logout', [LogoutController::class, 'logout']);
+
+    Route::apiResource('columns', ColumnController::class)->only(['store', 'show', 'update', 'destroy']);
+    Route::apiResource('notes', NoteController::class)->only(['store', 'show', 'update', 'destroy']);
+
+    Route::get('/{sessionSlug}', [SessionController::class, 'show']);
+
 });
 
 Route::get('/', fn() => 'snickers')->name('home');
