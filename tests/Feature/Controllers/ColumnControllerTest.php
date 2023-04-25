@@ -45,7 +45,7 @@ class ColumnControllerTest extends TestCase
     public function test_it_cannot_delete_a_column_that_does_not_exist()
     {
         $this->delete(route('columns.destroy', Column::query()->max('id') + 1))
-            ->assertStatus(302); // todo i'd like a status other than 302 when we fail to find a column...
+            ->assertUnprocessable();
     }
 
     public function test_it_cannot_create_duplicate_column_titles_for_a_session()
