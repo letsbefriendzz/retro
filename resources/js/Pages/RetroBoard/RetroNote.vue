@@ -40,12 +40,7 @@ export default {
             this.$emit('noteDeleted', {id: this.localNote.id})
         },
     },
-    computed: {
-        parentDivClasses() {
-            console.log(this.localNote.colour)
-            return `card bg-${this.localNote.colour ?? 'bg-base-100'} m-0 p-0 shadow-xl my-2`
-        }
-    },
+    computed: {},
     watch: {
         note: function (newValue) {
             this.localNote = newValue

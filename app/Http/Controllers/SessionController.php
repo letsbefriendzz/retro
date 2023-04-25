@@ -13,7 +13,8 @@ class SessionController extends Controller
 {
     public function show(string $sessionSlug): Response
     {
-        /** TODO: refactor this into something prettier.
+        /**
+         *  TODO: refactor this into something prettier.
          *  While it does function, using first and then checking the falsiness of the
          *  session that is returned is diddly darn ugly, if I do say so myself.
          */
@@ -35,9 +36,6 @@ class SessionController extends Controller
                 "id" => $note['id'],
                 "content" => $note['content'],
                 "column_id" => $note['column_id'],
-                "session_id" => $note['session_id'],
-                "created_at" => $note['created_at'],
-                "updated_at" => $note['updated_at'],
             ];
         });
 

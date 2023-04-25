@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpArrayShapeAttributeCanBeAddedInspection */
+<?php
 
 namespace App\Http\Requests;
 
@@ -6,13 +6,8 @@ use App\Models\Column;
 use App\Models\Session;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NoteRequest extends FormRequest
+class StoreNoteRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [
