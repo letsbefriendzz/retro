@@ -15,8 +15,18 @@ describe('RetroBoard.vue', () => {
     const notes = [
         {
             id: 1,
-            content: 'Sample note',
+            content: 'Sample note 1',
             column_id: 1,
+        },
+        {
+            id: 2,
+            content: 'Sample note 2',
+            column_id: 2,
+        },
+        {
+            id: 3,
+            content: 'Sample note 3',
+            column_id: 3,
         },
     ]
     const columns = [
