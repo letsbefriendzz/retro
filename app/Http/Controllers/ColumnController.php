@@ -4,28 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Events\ColumnCreated;
 use App\Events\ColumnDeleted;
+use App\Http\Requests\DestroyColumnRequest;
+use App\Http\Requests\StoreColumnRequest;
 use App\Http\Resources\ColumnResource;
 use App\Models\Column;
-use App\Models\Session;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ColumnController extends Controller
 {
-    public function store(Request $request): ColumnResource
+    public function store(StoreColumnRequest $request): ColumnResource
     {
         // todo introduce constraint for columns with the same session_id and title
-        $validated = $request->validate([
-            'title' => 'required',
-            'session_id' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    if (!Session::query()->find($value)) {
-                        $fail('A Session with the ID ' . $value . ' does not exist.');
-                    }
-                },
-            ]
-        ]);
+        $validated = $request->validated();
 
         $column = Column::query()->create([
             'title' => $validated['title'],
@@ -37,23 +27,14 @@ class ColumnController extends Controller
         return new ColumnResource($column);
     }
 
-    public function destroy(Request $request, int $columnId): JsonResponse
+    public function destroy(DestroyColumnRequest $request, int $columnId): JsonResponse
     {
-        $request->validate([
-            'session_id' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    if (!Session::query()->find($value)) {
-                        $fail('A Session with the ID ' . $value . ' does not exist.');
-                    }
-                },
-            ]
-        ]);
+        $validated = $request->validated();
 
         $deleted = Column::query()->where('id', $columnId)->delete();
 
         if ($deleted) {
-            ColumnDeleted::dispatch($request->input('session_id'), $columnId);
+            ColumnDeleted::dispatch($validated['session_id'], $columnId);
         }
 
         return response()->json([

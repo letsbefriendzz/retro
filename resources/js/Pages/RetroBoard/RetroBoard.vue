@@ -91,7 +91,6 @@ export default {
             this.$nextTick(() => this.localColumns = this.localColumns.filter((column) => {
                 return column.id !== event.column_id
             }))
-            console.log(this.localColumns)
             axios.post(routes.columns.destroy + `/${event.column_id}`, { // todo don't POST with _method
                 _method: 'DELETE',
                 session_id: event.session_id,
@@ -103,8 +102,6 @@ export default {
     computed: {},
     watch: {
         columns: function (columns) {
-            console.log(columns)
-            console.log('RetroBoard.vue:watch:columns')
             this.localColumns = [...columns]
         }
     },

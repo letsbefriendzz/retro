@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Events\NoteCreated;
 use App\Events\NoteDeleted;
-use App\Http\Requests\NoteRequest;
+use App\Http\Requests\UpdateNoteRequest;
+use App\Http\Requests\StoreNoteRequest;
 use App\Http\Resources\NoteResource;
 use App\Models\Note;
 use Illuminate\Http\JsonResponse;
 
 class NoteController extends Controller
 {
-    public function store(NoteRequest $request): NoteResource
+    public function store(StoreNoteRequest $request): NoteResource
     {
         $validated = $request->validated();
         $note = Note::query()->create([
@@ -30,7 +31,7 @@ class NoteController extends Controller
         return new NoteResource($note);
     }
 
-    public function update(Note $note, NoteRequest $request): NoteResource
+    public function update(Note $note, UpdateNoteRequest $request): NoteResource
     {
         $validated = $request->validated();
 
