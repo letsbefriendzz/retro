@@ -8,7 +8,7 @@
             :session="this.session"
             :notes="this.localNotes"
             :user="this.user"
-            :columns="this.columns"
+            :columns="this.localColumns"
             class="px-6"
         />
     </div>
@@ -46,6 +46,7 @@ export default {
     data() {
         return {
             localNotes: [...this.notes],
+            localColumns: [...this.columns],
             pusher: null,
         }
     },
@@ -56,17 +57,20 @@ export default {
         noteDeleted(pusherEvent) {
             this.localNotes = [...this.localNotes.filter(note => pusherEvent.note.id !== note.id)]
         },
+        columnCreated(pusherEvent) {
+            // this is the only way I can trigger the watcher in RetroBoard.vue -- localNotes.push() ain't doing nuffin.
+            this.localColumns = [...this.localColumns, pusherEvent.column]
+        },
+        columnDeleted(pusherEvent) {
+            this.localColumns = [...this.localColumns.filter(column => pusherEvent.column.id !== column.id)]
+        },
     },
     computed: {
         pusherChannelName() {
             return `retro-session-${this.session.id}`
         },
     },
-    watch: {
-        notes: function (notes) {
-            this.localNotes = [...notes]
-        }
-    },
+    watch: {},
     mounted() {
         this.pusher = new Pusher('978e85c5d158cc9b310c', {
             cluster: 'us2'
@@ -75,6 +79,8 @@ export default {
         const channel = this.pusher.subscribe(this.pusherChannelName);
         channel.bind('retro-note-created', this.noteReceived);
         channel.bind('retro-note-deleted', this.noteDeleted);
+        channel.bind('column-created', this.columnCreated);
+        channel.bind('column-deleted', this.columnDeleted);
     },
     beforeDestroy() {
         this.pusher.unsubscribe(this.pusherChannelName)
