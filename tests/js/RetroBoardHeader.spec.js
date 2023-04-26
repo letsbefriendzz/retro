@@ -45,8 +45,27 @@ describe('RetroBoardHeader.vue', () => {
         expect(userAvatar.attributes('src')).toBe(user.avatar)
     })
 
-    it('userNotNull and slugNotNull computed properties work as expected', () => {
-        expect(wrapper.vm.userNotNull).toBe(true)
-        expect(wrapper.vm.slugNotNull).toBe(true)
+    it.each([
+        {user: user},
+        {user: null}
+    ])
+    ('userNotNull computed property works as expected', ({user}) => {
+        const wrapper = mount(RetroBoardHeader, {
+            props: {user},
+        })
+
+        expect(wrapper.vm.userNotNull).toBe(!!user)
+    })
+
+    it.each([
+        {slug: slug},
+        {slug: null}
+    ])
+    ('slugNotNull computed property works as expected', ({slug}) => {
+        const wrapper = mount(RetroBoardHeader, {
+            props: {slug},
+        })
+
+        expect(wrapper.vm.slugNotNull).toBe(!!slug)
     })
 })
