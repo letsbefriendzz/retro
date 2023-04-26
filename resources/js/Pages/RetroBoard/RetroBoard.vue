@@ -25,7 +25,7 @@
                                 placeholder="Title"
                                 class="input input-bordered w-full max-w-xs"
                             />
-                            <div class="modal-action">
+                            <div class="modal-action" id="add-column-modal-btn">
                                 <label for="newColumnModal" @click="this.addColumn" class="btn">Create</label>
                             </div>
                         </label>
@@ -41,6 +41,14 @@ import RetroColumn from "./RetroColumn.vue";
 import {routes} from "../routes";
 import axios from 'axios';
 
+/**
+ * TODO -- Column IDs are getting shuffled, and deletion can be partially broken.
+ * To recreate:
+ * 1. Create a fresh session
+ * 2. Create a new column within said session
+ * 3. Delete the new column
+ * 4. See the column previous to it gets delete -- not the column itself.
+ */
 export default {
     name: "RetroBoard",
     components: {

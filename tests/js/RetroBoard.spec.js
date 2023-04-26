@@ -96,7 +96,7 @@ describe('RetroBoard.vue', () => {
 
     it('adds new column on addColumn', async () => {
         const input = wrapper.find('#titleText')
-        const addButton = wrapper.find('.modal-action label')
+        const addButton = wrapper.find('#add-column-modal-btn label')
 
         input.setValue('New Column')
         await addButton.trigger('click')
