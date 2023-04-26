@@ -7,6 +7,7 @@ module.exports = {
     },
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/resources/js/$1',
+        '^@components/(.*)$': '<rootDir>/resources/js/Pages/$1',
     },
     testMatch: [
         '<rootDir>/tests/js/**/*.spec.(js|jsx|ts|tsx)',
