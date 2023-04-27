@@ -1,7 +1,8 @@
 import {mount} from '@vue/test-utils'
-import RetroColumn from '../../resources/js/Pages/RetroBoard/RetroColumn.vue'
-import NoteTextArea from '../../resources/js/Pages/Input/NoteTextArea.vue'
-import RetroNote from '../../resources/js/Pages/RetroBoard/RetroNote.vue'
+import RetroColumn from '../../../resources/js/Pages/RetroBoard/RetroColumn.vue'
+import NoteTextArea from '../../../resources/js/Pages/Input/NoteTextArea.vue'
+import RetroNote from '../../../resources/js/Pages/RetroBoard/RetroNote.vue'
+import BinaryModalButton from '../../../resources/js/Pages/Input/BinaryModalButton.vue'
 import axios from 'axios'
 
 jest.mock('axios')
@@ -62,7 +63,7 @@ describe('RetroColumn.vue', () => {
         noteTextArea.vm.$emit('newNoteCreated', {newNoteText: 'New Note'})
 
         expect(axios.post).toHaveBeenCalled()
-        expect(wrapper.vm.localRetroNotes).toContainEqual(
+        expect(wrapper.vm.localNotes).toContainEqual(
             expect.objectContaining({content: 'New Note'})
         )
     })
@@ -75,17 +76,22 @@ describe('RetroColumn.vue', () => {
         await retroNote.vm.$emit('noteDeleted', {id: 1})
 
         expect(axios.delete).toHaveBeenCalled()
-        expect(wrapper.vm.localRetroNotes).not.toContainEqual(
+        expect(wrapper.vm.localNotes).not.toContainEqual(
             expect.objectContaining({id: 1})
         )
     })
 
-    it('emits deleteColumn event on delete button click', async () => {
-        const deleteButton = wrapper.find('.btn')
-        await deleteButton.trigger('click')
+    describe('BinaryModalButton', () => {
+        it('emits deleteModalButtonClicked when the delete button is clicked', async () => {
+            // Find the BinaryModalButton component and click it
+            const binaryModalButton = wrapper.findComponent(BinaryModalButton)
+            await binaryModalButton.find('label').trigger('click')
 
-        const deleteEvent = wrapper.emitted().deleteColumn
-        expect(deleteEvent).toBeTruthy()
-        expect(deleteEvent[0]).toEqual([{column_id: columnOptions.id, session_id: session.id}])
+            // Check if the deleteModalButtonClicked event was emitted
+            const deleteModalButtonClickedEvents = wrapper.emitted('deleteModalButtonClicked')
+            expect(deleteModalButtonClickedEvents).toHaveLength(1)
+            expect(deleteModalButtonClickedEvents[0][0].column_id).toBe(1)
+        })
+
     })
 })

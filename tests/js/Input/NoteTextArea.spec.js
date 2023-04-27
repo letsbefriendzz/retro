@@ -1,5 +1,5 @@
 import {mount} from '@vue/test-utils'
-import NoteTextArea from '../../resources/js/Pages/Input/NoteTextArea.vue'
+import NoteTextArea from '../../../resources/js/Pages/Input/NoteTextArea.vue'
 
 describe('NoteTextArea.vue', () => {
     let wrapper

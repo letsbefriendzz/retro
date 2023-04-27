@@ -1,5 +1,5 @@
 import {mount} from '@vue/test-utils'
-import RetroNote from '../../resources/js/Pages/RetroBoard/RetroNote.vue'
+import RetroNote from '../../../resources/js/Pages/RetroBoard/RetroNote.vue'
 import axios from 'axios'
 
 jest.mock('axios')

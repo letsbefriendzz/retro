@@ -8,12 +8,12 @@
                     :columnOptions="column"
                     :notes="notesForColumn(column.id)"
                     :session="session"
-                    @deleteColumn="this.deleteColumn"
+                    @deleteModalButtonClicked="this.updateDeleteColumnFocus"
                 />
             </ul>
-            <div id="modal">
+            <div id="newColumnModalContainer">
                 <label for="newColumnModal" class="btn btn-primary">+</label>
-                <input type="checkbox" id="newColumnModal" class="modal-toggle" />
+                <input type="checkbox" id="newColumnModal" class="modal-toggle"/>
                 <label for="newColumnModal" class="modal cursor-pointer">
                     <label class="modal-box relative">
                         <h3 class="text-lg font-bold">Create New Column</h3>
@@ -25,18 +25,29 @@
                                 placeholder="Title"
                                 class="input input-bordered w-full max-w-xs"
                             />
-                            <div class="modal-action">
+                            <div class="modal-action" id="add-column-modal-btn">
                                 <label for="newColumnModal" @click="this.addColumn" class="btn">Create</label>
                             </div>
                         </label>
                     </label>
                 </label>
             </div>
+            <div id="binaryModalContainer">
+                <BinaryModal
+                    no-label="Keep"
+                    yes-label="Delete"
+                    description="Any notes associated with this column will be deleted. Are you sure you'd like to proceed?"
+                    header="Delete Column"
+                    label="X"
+                    @yes="this.deleteColumn"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import BinaryModal from "../Input/BinaryModal.vue";
 import RetroColumn from "./RetroColumn.vue";
 import {routes} from "../routes";
 import axios from 'axios';
@@ -45,6 +56,7 @@ export default {
     name: "RetroBoard",
     components: {
         RetroColumn,
+        BinaryModal,
     },
     props: {
         session: {
@@ -66,6 +78,7 @@ export default {
     data() {
         return {
             localColumns: [...this.columns],
+            deleteColumnFocus: null,
         }
     },
     methods: {
@@ -87,18 +100,21 @@ export default {
             this.localColumns.push(newColumn);
         },
         deleteColumn(event) {
-            const deletedColumnIndex = this.localColumns.findIndex(column => column.id === event.column_id);
+            const deletedColumnIndex = this.localColumns.findIndex(column => column.id === this.deleteColumnFocus);
             const deletedColumn = this.localColumns[deletedColumnIndex];
             this.$nextTick(() => this.localColumns = this.localColumns.filter((column) => {
-                return column.id !== event.column_id
+                return column.id !== this.deleteColumnFocus
             }))
-            axios.post(routes.columns.destroy + `/${event.column_id}`, { // todo don't POST with _method
+            axios.post(routes.columns.destroy + `/${this.deleteColumnFocus}`, { // todo don't POST with _method
                 _method: 'DELETE',
-                session_id: event.session_id,
+                session_id: this.session.id,
             }).catch(() => {
                 this.localColumns.splice(deletedColumnIndex, 0, deletedColumn);
             })
         },
+        updateDeleteColumnFocus(event) {
+            this.deleteColumnFocus = event.column_id
+        }
     },
     computed: {},
     watch: {

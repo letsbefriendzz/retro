@@ -1,7 +1,7 @@
 import {mount} from '@vue/test-utils';
-import RetroBoardParent from '../../resources/js/Pages/RetroBoard/RetroBoardParent.vue';
-import RetroBoard from '../../resources/js/Pages/RetroBoard/RetroBoard.vue';
-import RetroBoardHeader from '../../resources/js/Pages/RetroBoard/RetroBoardHeader.vue';
+import RetroBoardParent from '../../../resources/js/Pages/RetroBoard/RetroBoardParent.vue';
+import RetroBoard from '../../../resources/js/Pages/RetroBoard/RetroBoard.vue';
+import RetroBoardHeader from '../../../resources/js/Pages/RetroBoard/RetroBoardHeader.vue';
 
 jest.mock('pusher-js', () => {
     return jest.fn().mockImplementation(() => {

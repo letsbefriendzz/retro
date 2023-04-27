@@ -1,5 +1,5 @@
 import {mount} from '@vue/test-utils'
-import RetroBoardHeader from '../../resources/js/Pages/RetroBoard/RetroBoardHeader.vue'
+import RetroBoardHeader from '../../../resources/js/Pages/RetroBoard/RetroBoardHeader.vue'
 
 describe('RetroBoardHeader.vue', () => {
     let wrapper

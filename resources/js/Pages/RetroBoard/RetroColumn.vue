@@ -3,13 +3,13 @@
         <div id="headers" class="container flex items-center mx-auto justify-between flex-wrap">
             <h1 class="mb-6 text-2xl font-bold">{{ this.columnOptions.title }}</h1>
             <div>
-                <button class="btn btn-ghost hover:bg-error hover:text-black" @click="this.deleteColumn">
-                    X
-                </button>
+                <div id="deleteModalContainer">
+                    <BinaryModalButton label="X" @buttonClick="this.deleteModalButtonClicked"/>
+                </div>
             </div>
         </div>
         <div>
-            <div v-for="note in this.localRetroNotes">
+            <div v-for="note in this.localNotes">
                 <RetroNote @noteDeleted="noteDeleted" :note="note"/>
             </div>
         </div>
@@ -21,6 +21,7 @@
 
 <script>
 import NoteTextArea from "../Input/NoteTextArea.vue";
+import BinaryModalButton from "../Input/BinaryModalButton.vue";
 import RetroNote from "./RetroNote.vue";
 import {routes} from "../routes";
 import {throttle} from 'lodash';
@@ -28,10 +29,11 @@ import axios from "axios";
 
 export default {
     name: "RetroColumn",
-    emits: ["deleteColumn"],
+    emits: ["deleteModalButtonClicked"],
     components: {
         NoteTextArea,
         RetroNote,
+        BinaryModalButton,
     },
     props: {
         session: {
@@ -49,7 +51,7 @@ export default {
     },
     data() {
         return {
-            localRetroNotes: [...this.notes]
+            localNotes: [...this.notes]
         }
     },
     methods: {
@@ -60,34 +62,39 @@ export default {
                 content: event.newNoteText,
             }
             axios.post(routes.notes.store, newNote).catch(() => {
-                this.localRetroNotes = this.localRetroNotes.filter((note) => {
+                this.localNotes = this.localNotes.filter((note) => {
                     return note.content !== event.newNoteText // this will remove notes with the same text :/
                         && note.column_id !== this.columnOptions.column_id
                 })
             })
-            this.localRetroNotes.push(newNote);
+            this.localNotes.push(newNote);
         }, 500),
         noteDeleted: throttle(function (event) {
-            const deletedNoteIndex = this.localRetroNotes.findIndex(note => note.id === event.id);
-            const deletedNote = this.localRetroNotes[deletedNoteIndex];
-            this.$nextTick(() => this.localRetroNotes = this.localRetroNotes.filter((note) => {
+            const deletedNoteIndex = this.localNotes.findIndex(note => note.id === event.id);
+            const deletedNote = this.localNotes[deletedNoteIndex];
+            this.$nextTick(() => this.localNotes = this.localNotes.filter((note) => {
                 return note.id !== event.id
             }))
             axios.delete(routes.notes.destroy + `/${event.id}`)
                 .catch(() => {
-                    this.localRetroNotes.splice(deletedNoteIndex, 0, deletedNote);
+                    this.localNotes.splice(deletedNoteIndex, 0, deletedNote);
                 })
         }, 500),
-        deleteColumn: throttle(function (event) {
-            this.$emit('deleteColumn', {
+        deleteModalButtonClicked(event) {
+            this.$emit('deleteModalButtonClicked', {
+                ...event,
                 column_id: this.columnOptions.id,
-                session_id: this.session.id,
             })
-        }, 500),
+        }
+    },
+    computed: {
+        hasNotes() {
+            return this.localNotes.length > 0
+        }
     },
     watch: {
         notes: function (notes) {
-            this.localRetroNotes = [...notes]
+            this.localNotes = [...notes]
         }
     },
 }
