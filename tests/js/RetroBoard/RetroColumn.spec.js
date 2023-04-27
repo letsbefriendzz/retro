@@ -81,13 +81,11 @@ describe('RetroColumn.vue', () => {
         )
     })
 
-    describe('BinaryModalButton', () => {
+    describe('BinaryModalButton Integration', () => {
         it('emits deleteModalButtonClicked when the delete button is clicked', async () => {
-            // Find the BinaryModalButton component and click it
             const binaryModalButton = wrapper.findComponent(BinaryModalButton)
             await binaryModalButton.find('label').trigger('click')
 
-            // Check if the deleteModalButtonClicked event was emitted
             const deleteModalButtonClickedEvents = wrapper.emitted('deleteModalButtonClicked')
             expect(deleteModalButtonClickedEvents).toHaveLength(1)
             expect(deleteModalButtonClickedEvents[0][0].column_id).toBe(1)

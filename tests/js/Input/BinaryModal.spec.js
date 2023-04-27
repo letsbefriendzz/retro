@@ -1,5 +1,5 @@
 import {mount} from '@vue/test-utils'
-import BinaryModal from '../../../resources/js/Pages/Input/BinaryModal'
+import BinaryModal from '../../../resources/js/Pages/Input/BinaryModal.vue'
 
 describe('BinaryModal.vue', () => {
     let wrapper

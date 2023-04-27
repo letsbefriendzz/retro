@@ -4,6 +4,8 @@ import RetroBoard from '../../../resources/js/Pages/RetroBoard/RetroBoard.vue'
 import BinaryModal from '../../../resources/js/Pages/Input/BinaryModal.vue'
 import BinaryModalButton from '../../../resources/js/Pages/Input/BinaryModalButton.vue'
 import axios from 'axios'
+import TextInputModal from "../../../resources/js/Pages/Input/TextInputModal";
+import TextInputModalButton from "../../../resources/js/Pages/Input/TextInputModalButton";
 
 jest.mock('axios')
 
@@ -88,18 +90,6 @@ describe('RetroBoard', () => {
         expect(wrapper.vm.notesForColumn(3).length).toBe(3)
     })
 
-    it('adds new column on addColumn', async () => {
-        const input = wrapper.find('#titleText')
-        const addButton = wrapper.find('#add-column-modal-btn label')
-
-        input.setValue('New Column')
-        await addButton.trigger('click')
-
-        expect(wrapper.vm.localColumns).toContainEqual(
-            expect.objectContaining({title: 'New Column'}),
-        )
-    })
-
     describe('BinaryModal Integration', () => {
         it('shows the binary modal when a delete button is clicked', async () => {
             wrapper.setData({ localColumns: [{ id: 1, title: 'Test Column' }] })
@@ -137,6 +127,23 @@ describe('RetroBoard', () => {
             await binaryModal.find('#noButton').trigger('click')
 
             expect(wrapper.vm.localColumns).toHaveLength(1)
+        })
+    })
+
+    describe('TextInputModal Integration', () => {
+        it('adds new column using input modal', async () => {
+            const newColumnName = 'New Column Name'
+
+            const textInputModal = wrapper.findComponent(TextInputModal)
+            const textInputModalButton = wrapper.findComponent(TextInputModalButton)
+
+            await textInputModalButton.trigger('click')
+            await textInputModal.find('input#titleText').setValue(newColumnName)
+            await textInputModal.find('label#submitButton').trigger('click')
+
+            expect(wrapper.vm.localColumns).toContainEqual(
+                expect.objectContaining({title: newColumnName}),
+            )
         })
     })
 })
