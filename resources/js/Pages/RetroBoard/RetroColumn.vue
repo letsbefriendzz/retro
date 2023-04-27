@@ -4,18 +4,7 @@
             <h1 class="mb-6 text-2xl font-bold">{{ this.columnOptions.title }}</h1>
             <div>
                 <div id="deleteModalContainer">
-                    <label class="btn btn-ghost hover:bg-error hover:text-black" @click="this.deleteColumn">
-                        X
-                    </label>
-<!--                    <BinaryModal-->
-<!--                        :slug="this.columnOptions.title"-->
-<!--                        open-label="X"-->
-<!--                        header="Delete Column"-->
-<!--                        description="snickers"-->
-<!--                        yes-label="Delete"-->
-<!--                        no-label="Keep"-->
-<!--                        @yes="this.deleteColumn"-->
-<!--                    />-->
+                    <BinaryModalButton label="X" @buttonClick="this.deleteModalButtonClicked"/>
                 </div>
             </div>
         </div>
@@ -32,7 +21,7 @@
 
 <script>
 import NoteTextArea from "../Input/NoteTextArea.vue";
-import BinaryModal from "../Input/BinaryModal.vue";
+import BinaryModalButton from "../Input/BinaryModalButton.vue";
 import RetroNote from "./RetroNote.vue";
 import {routes} from "../routes";
 import {throttle} from 'lodash';
@@ -40,11 +29,11 @@ import axios from "axios";
 
 export default {
     name: "RetroColumn",
-    emits: ["deleteColumn"],
+    emits: ["deleteModalButtonClicked"],
     components: {
         NoteTextArea,
         RetroNote,
-        BinaryModal,
+        BinaryModalButton,
     },
     props: {
         session: {
@@ -91,13 +80,12 @@ export default {
                     this.localNotes.splice(deletedNoteIndex, 0, deletedNote);
                 })
         }, 500),
-        deleteColumn: throttle(function (event) {
-            console.log(this.columnOptions)
-            this.$emit('deleteColumn', {
+        deleteModalButtonClicked(event) {
+            this.$emit('deleteModalButtonClicked', {
+                ...event,
                 column_id: this.columnOptions.id,
-                session_id: this.session.id,
             })
-        }, 500),
+        }
     },
     computed: {
         hasNotes() {

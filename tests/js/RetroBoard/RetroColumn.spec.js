@@ -1,7 +1,8 @@
 import {mount} from '@vue/test-utils'
-import RetroColumn from '../../resources/js/Pages/RetroBoard/RetroColumn.vue'
-import NoteTextArea from '../../resources/js/Pages/Input/NoteTextArea.vue'
-import RetroNote from '../../resources/js/Pages/RetroBoard/RetroNote.vue'
+import RetroColumn from '../../../resources/js/Pages/RetroBoard/RetroColumn.vue'
+import NoteTextArea from '../../../resources/js/Pages/Input/NoteTextArea.vue'
+import RetroNote from '../../../resources/js/Pages/RetroBoard/RetroNote.vue'
+import BinaryModalButton from '../../../resources/js/Pages/Input/BinaryModalButton.vue'
 import axios from 'axios'
 
 jest.mock('axios')
@@ -80,13 +81,17 @@ describe('RetroColumn.vue', () => {
         )
     })
 
-    // todo refactor to accommodate for BinaryModal
-    it.skip('emits deleteColumn event on delete button click', async () => {
-        const deleteButton = wrapper.find('.btn')
-        await deleteButton.trigger('click')
+    describe('BinaryModalButton', () => {
+        it('emits deleteModalButtonClicked when the delete button is clicked', async () => {
+            // Find the BinaryModalButton component and click it
+            const binaryModalButton = wrapper.findComponent(BinaryModalButton)
+            await binaryModalButton.find('label').trigger('click')
 
-        const deleteEvent = wrapper.emitted().deleteColumn
-        expect(deleteEvent).toBeTruthy()
-        expect(deleteEvent[0]).toEqual([{column_id: columnOptions.id, session_id: session.id}])
+            // Check if the deleteModalButtonClicked event was emitted
+            const deleteModalButtonClickedEvents = wrapper.emitted('deleteModalButtonClicked')
+            expect(deleteModalButtonClickedEvents).toHaveLength(1)
+            expect(deleteModalButtonClickedEvents[0][0].column_id).toBe(1)
+        })
+
     })
 })
