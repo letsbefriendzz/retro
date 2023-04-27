@@ -4,7 +4,11 @@
             <h1 class="mb-6 text-2xl font-bold">{{ this.columnOptions.title }}</h1>
             <div>
                 <div id="deleteModalContainer">
-                    <BinaryModalButton label="X" @buttonClick="this.deleteModalButtonClicked"/>
+                    <ModalButton
+                        label="X"
+                        class-styles="btn btn-ghost hover:bg-error hover:text-black"
+                        @buttonClick="this.deleteModalButtonClicked"
+                    />
                 </div>
             </div>
         </div>
@@ -20,12 +24,12 @@
 </template>
 
 <script>
-import NoteTextArea from "../Input/NoteTextArea.vue";
-import BinaryModalButton from "../Input/BinaryModalButton.vue";
-import RetroNote from "./RetroNote.vue";
-import {routes} from "../routes";
-import {throttle} from 'lodash';
-import axios from "axios";
+import NoteTextArea from "../Input/NoteTextArea.vue"
+import ModalButton from "../Input/ModalButton.vue"
+import RetroNote from "./RetroNote.vue"
+import {routes} from "../routes"
+import {throttle} from 'lodash'
+import axios from "axios"
 
 export default {
     name: "RetroColumn",
@@ -33,7 +37,7 @@ export default {
     components: {
         NoteTextArea,
         RetroNote,
-        BinaryModalButton,
+        ModalButton,
     },
     props: {
         session: {
@@ -67,17 +71,17 @@ export default {
                         && note.column_id !== this.columnOptions.column_id
                 })
             })
-            this.localNotes.push(newNote);
+            this.localNotes.push(newNote)
         }, 500),
         noteDeleted: throttle(function (event) {
-            const deletedNoteIndex = this.localNotes.findIndex(note => note.id === event.id);
-            const deletedNote = this.localNotes[deletedNoteIndex];
+            const deletedNoteIndex = this.localNotes.findIndex(note => note.id === event.id)
+            const deletedNote = this.localNotes[deletedNoteIndex]
             this.$nextTick(() => this.localNotes = this.localNotes.filter((note) => {
                 return note.id !== event.id
             }))
             axios.delete(routes.notes.destroy + `/${event.id}`)
                 .catch(() => {
-                    this.localNotes.splice(deletedNoteIndex, 0, deletedNote);
+                    this.localNotes.splice(deletedNoteIndex, 0, deletedNote)
                 })
         }, 500),
         deleteModalButtonClicked(event) {

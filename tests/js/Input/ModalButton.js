@@ -1,11 +1,11 @@
 import { mount } from '@vue/test-utils'
-import BinaryModalButton from '../../../resources/js/Pages/Input/BinaryModalButton.vue'
+import ModalButton from '../../../resources/js/Pages/Input/ModalButton.vue'
 
-describe('BinaryModalButton', () => {
+describe('ModalButton', () => {
     let wrapper
 
     beforeEach(() => {
-        wrapper = mount(BinaryModalButton, {
+        wrapper = mount(ModalButton, {
             propsData: {
                 label: 'X'
             }

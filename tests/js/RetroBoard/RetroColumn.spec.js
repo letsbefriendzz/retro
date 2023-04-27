@@ -2,7 +2,7 @@ import {mount} from '@vue/test-utils'
 import RetroColumn from '../../../resources/js/Pages/RetroBoard/RetroColumn.vue'
 import NoteTextArea from '../../../resources/js/Pages/Input/NoteTextArea.vue'
 import RetroNote from '../../../resources/js/Pages/RetroBoard/RetroNote.vue'
-import BinaryModalButton from '../../../resources/js/Pages/Input/BinaryModalButton.vue'
+import ModalButton from '../../../resources/js/Pages/Input/ModalButton.vue'
 import axios from 'axios'
 
 jest.mock('axios')
@@ -81,10 +81,10 @@ describe('RetroColumn.vue', () => {
         )
     })
 
-    describe('BinaryModalButton Integration', () => {
+    describe('ModalButton Integration', () => {
         it('emits deleteModalButtonClicked when the delete button is clicked', async () => {
-            const binaryModalButton = wrapper.findComponent(BinaryModalButton)
-            await binaryModalButton.find('label').trigger('click')
+            const modalButton = wrapper.findComponent(ModalButton)
+            await modalButton.find('label').trigger('click')
 
             const deleteModalButtonClickedEvents = wrapper.emitted('deleteModalButtonClicked')
             expect(deleteModalButtonClickedEvents).toHaveLength(1)

@@ -2,10 +2,10 @@ import {mount} from '@vue/test-utils'
 import RetroColumn from '../../../resources/js/Pages/RetroBoard/RetroColumn.vue'
 import RetroBoard from '../../../resources/js/Pages/RetroBoard/RetroBoard.vue'
 import BinaryModal from '../../../resources/js/Pages/Input/BinaryModal.vue'
-import BinaryModalButton from '../../../resources/js/Pages/Input/BinaryModalButton.vue'
+import ModalButton from '../../../resources/js/Pages/Input/ModalButton.vue'
 import axios from 'axios'
 import TextInputModal from "../../../resources/js/Pages/Input/TextInputModal";
-import TextInputModalButton from "../../../resources/js/Pages/Input/TextInputModalButton";
+import ModalButton from "../../../resources/js/Pages/Input/ModalButton";
 
 jest.mock('axios')
 
@@ -95,7 +95,7 @@ describe('RetroBoard', () => {
             wrapper.setData({ localColumns: [{ id: 1, title: 'Test Column' }] })
 
             const retroColumn = wrapper.findComponent(RetroColumn)
-            const binaryModalDeleteButton = retroColumn.findComponent(BinaryModalButton)
+            const binaryModalDeleteButton = retroColumn.findComponent(ModalButton)
             await binaryModalDeleteButton.find('label').trigger('click')
 
             const binaryModal = wrapper.findComponent(BinaryModal)
@@ -107,7 +107,7 @@ describe('RetroBoard', () => {
             wrapper.setData({ localColumns: [{ id: 1, title: 'Test Column' }] })
 
             const retroColumn = wrapper.findComponent(RetroColumn)
-            const binaryModalDeleteButton = retroColumn.findComponent(BinaryModalButton)
+            const binaryModalDeleteButton = retroColumn.findComponent(ModalButton)
             await binaryModalDeleteButton.find('label').trigger('click')
 
             const binaryModal = wrapper.findComponent(BinaryModal)
@@ -120,7 +120,7 @@ describe('RetroBoard', () => {
             wrapper.setData({ localColumns: [{ id: 1, title: 'Test Column' }] })
 
             const retroColumn = wrapper.findComponent(RetroColumn)
-            const binaryModalDeleteButton = retroColumn.findComponent(BinaryModalButton)
+            const binaryModalDeleteButton = retroColumn.findComponent(ModalButton)
             await binaryModalDeleteButton.find('label').trigger('click')
 
             const binaryModal = wrapper.findComponent(BinaryModal)
@@ -135,7 +135,7 @@ describe('RetroBoard', () => {
             const newColumnName = 'New Column Name'
 
             const textInputModal = wrapper.findComponent(TextInputModal)
-            const textInputModalButton = wrapper.findComponent(TextInputModalButton)
+            const textInputModalButton = wrapper.findComponent(ModalButton)
 
             await textInputModalButton.trigger('click')
             await textInputModal.find('input#titleText').setValue(newColumnName)

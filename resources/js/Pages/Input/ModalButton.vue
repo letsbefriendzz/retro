@@ -1,18 +1,27 @@
 <template>
-    <label :for="this.label" class="btn btn-primary">
+    <label
+        :class="this.classStyles"
+        @click="this.$emit('buttonClick')"
+        :for="this.label"
+    >
         {{ this.label }}
     </label>
 </template>
 
 <script>
 export default {
-    name: "TextInputModalButton",
-    emits: [],
+    name: "ModalButton",
+    emits: ["buttonClick"],
     components: {},
     props: {
         label: {
             type: String,
             required: true,
+        },
+        classStyles: {
+            type: String,
+            required: false,
+            default: 'btn',
         }
     },
     data() {

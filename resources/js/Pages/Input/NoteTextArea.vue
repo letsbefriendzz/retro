@@ -38,7 +38,7 @@ export default {
             }
         },
         preventNewline() {
-            this.newNoteText = this.newNoteText.replace(/[\r\n]+/g, '');
+            this.newNoteText = this.newNoteText.replace(/[\r\n]+/g, '')
             if (this.isNoteTextValid && this.textareaHasClass('textarea-error')) {
                 this.removeTextareaClass('textarea-error')
                 this.addTextareaClass('textarea-success')
