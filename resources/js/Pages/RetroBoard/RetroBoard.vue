@@ -12,25 +12,14 @@
                 />
             </ul>
             <div id="newColumnModalContainer">
-                <label for="newColumnModal" class="btn btn-primary">+</label>
-                <input type="checkbox" id="newColumnModal" class="modal-toggle"/>
-                <label for="newColumnModal" class="modal cursor-pointer">
-                    <label class="modal-box relative">
-                        <h3 class="text-lg font-bold">Create New Column</h3>
-                        <label class="container flex items-center mx-auto justify-between flex-wrap">
-                            <input
-                                id="titleText"
-                                ref="titleText"
-                                type="text"
-                                placeholder="Title"
-                                class="input input-bordered w-full max-w-xs"
-                            />
-                            <div class="modal-action" id="add-column-modal-btn">
-                                <label for="newColumnModal" @click="this.addColumn" class="btn">Create</label>
-                            </div>
-                        </label>
-                    </label>
-                </label>
+                <TextInputModalButton label="newColumn"/>
+                <TextInputModal
+                    label="newColumn"
+                    header="Create New Column"
+                    button-label="Create"
+                    placeholder="Column Title"
+                    @textSubmitted="this.addColumn"
+                />
             </div>
             <div id="binaryModalContainer">
                 <BinaryModal
@@ -47,6 +36,8 @@
 </template>
 
 <script>
+import TextInputModal from "../Input/TextInputModal.vue";
+import TextInputModalButton from "../Input/TextInputModalButton.vue";
 import BinaryModal from "../Input/BinaryModal.vue";
 import RetroColumn from "./RetroColumn.vue";
 import {routes} from "../routes";
@@ -57,6 +48,8 @@ export default {
     components: {
         RetroColumn,
         BinaryModal,
+        TextInputModal,
+        TextInputModalButton,
     },
     props: {
         session: {
@@ -86,20 +79,18 @@ export default {
             return this.notes.filter(n => n.column_id === columnId)
         },
         addColumn(event) {
-            const title = this.$refs.titleText.value;
-            this.$refs.titleText.value = '';
             const newColumn = {
                 session_id: this.session.id,
-                title: title,
+                title: event.text,
             }
             axios.post(routes.columns.store, newColumn).catch(() => {
                 this.localColumns = this.localColumns.filter((column) => {
-                    return column.title !== title // this will remove columns with the same text :/
+                    return column.title !== event.text // this will remove columns with the same text :/
                 })
             })
             this.localColumns.push(newColumn);
         },
-        deleteColumn(event) {
+        deleteColumn() {
             const deletedColumnIndex = this.localColumns.findIndex(column => column.id === this.deleteColumnFocus);
             const deletedColumn = this.localColumns[deletedColumnIndex];
             this.$nextTick(() => this.localColumns = this.localColumns.filter((column) => {

@@ -1,11 +1,11 @@
 <template>
     <input type="checkbox" :id="this.label" class="modal-toggle"/>
-    <div class="modal">
-        <div class="modal-box">
+    <label :for="this.label" class="modal">
+        <label class="modal-box" for="">
             <h3 class="font-bold text-lg">{{ this.header }}</h3>
-            <p class="py-4">{{ this.description }}</p>
+            <p class="pt-4">{{ this.description }}</p>
             <div class="flex flex-row justify-between">
-                <div class="modal-action flex-grow mx-2">
+                <div class="modal-action flex-grow mr-2">
                     <label
                         id="yesButton"
                         @click="this.$emit('yes')"
@@ -15,7 +15,7 @@
                         {{ this.yesLabel }}
                     </label>
                 </div>
-                <div class="modal-action flex-grow mx-2">
+                <div class="modal-action flex-grow ml-2">
                     <label
                         id="noButton"
                         @click="this.$emit('no')"
@@ -26,8 +26,8 @@
                     </label>
                 </div>
             </div>
-        </div>
-    </div>
+        </label>
+    </label>
 </template>
 
 <script>
