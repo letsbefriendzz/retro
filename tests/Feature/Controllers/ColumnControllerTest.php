@@ -67,6 +67,27 @@ class ColumnControllerTest extends TestCase
             ]);
     }
 
+    public function test_it_requires_session_id_when_creating_column()
+    {
+        $title = 'snickers';
+        $this->session->columns()->create(['title' => $title]);
+
+        $this->post(route('columns.store'), [
+            'title' => $title,
+        ])->assertUnprocessable();
+    }
+
+    public function test_it_requires_title_when_creating_column()
+    {
+        $this->session->columns()->create([
+            'title' => 'snickers',
+        ]);
+
+        $this->post(route('columns.store'), [
+            'session_id' => $this->session->id,
+        ])->assertUnprocessable();
+    }
+
     public function test_it_dispatches_column_created()
     {
         Event::fake();
