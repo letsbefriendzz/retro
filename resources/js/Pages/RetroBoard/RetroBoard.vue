@@ -1,9 +1,7 @@
 <template>
     <div class="flex flex-col h-screen">
         <div class="flex flex-grow justify-center content-evenly">
-            <ul v-for="column in this.localColumns"
-                class="flex-grow flex justify-center w-1/3 "
-            >
+            <ul v-for="column in this.localColumns" class="flex-grow flex justify-center w-1/3 ">
                 <RetroColumn
                     :columnOptions="column"
                     :notes="notesForColumn(column.id)"
@@ -12,7 +10,7 @@
                 />
             </ul>
             <div id="newColumnModalContainer">
-                <TextInputModalButton label="newColumn"/>
+                <ModalButton label="newColumn" class-styles="btn btn-primary"/>
                 <TextInputModal
                     label="newColumn"
                     header="Create New Column"
@@ -36,12 +34,12 @@
 </template>
 
 <script>
-import TextInputModal from "../Input/TextInputModal.vue";
-import TextInputModalButton from "../Input/TextInputModalButton.vue";
-import BinaryModal from "../Input/BinaryModal.vue";
-import RetroColumn from "./RetroColumn.vue";
-import {routes} from "../routes";
-import axios from 'axios';
+import TextInputModal from "../Input/TextInputModal.vue"
+import ModalButton from "../Input/ModalButton.vue"
+import BinaryModal from "../Input/BinaryModal.vue"
+import RetroColumn from "./RetroColumn.vue"
+import {routes} from "../routes"
+import axios from 'axios'
 
 export default {
     name: "RetroBoard",
@@ -49,7 +47,7 @@ export default {
         RetroColumn,
         BinaryModal,
         TextInputModal,
-        TextInputModalButton,
+        ModalButton,
     },
     props: {
         session: {
@@ -88,11 +86,11 @@ export default {
                     return column.title !== event.text // this will remove columns with the same text :/
                 })
             })
-            this.localColumns.push(newColumn);
+            this.localColumns.push(newColumn)
         },
         deleteColumn() {
-            const deletedColumnIndex = this.localColumns.findIndex(column => column.id === this.deleteColumnFocus);
-            const deletedColumn = this.localColumns[deletedColumnIndex];
+            const deletedColumnIndex = this.localColumns.findIndex(column => column.id === this.deleteColumnFocus)
+            const deletedColumn = this.localColumns[deletedColumnIndex]
             this.$nextTick(() => this.localColumns = this.localColumns.filter((column) => {
                 return column.id !== this.deleteColumnFocus
             }))
@@ -100,7 +98,7 @@ export default {
                 _method: 'DELETE',
                 session_id: this.session.id,
             }).catch(() => {
-                this.localColumns.splice(deletedColumnIndex, 0, deletedColumn);
+                this.localColumns.splice(deletedColumnIndex, 0, deletedColumn)
             })
         },
         updateDeleteColumnFocus(event) {

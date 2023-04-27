@@ -16,7 +16,7 @@
                     type="text"
                     :placeholder="this.placeholder"
                     class="input input-bordered w-full max-w-xs"
-                    @input="this.textInputKeyup"
+                    @input="this.onTextInput"
                 />
                 <label id="submitButton" @click="this.emitButtonClicked" class="btn flex-grow ml-4">{{ this.buttonLabel }}</label>
             </label>
@@ -72,7 +72,7 @@ export default {
         isTitleValid() {
             return this.$refs.titleText.value.length > 0
         },
-        textInputKeyup() {
+        onTextInput() {
             if (this.textInput.classList.contains('input-error')) {
                 this.textInput.classList.remove('input-error')
                 this.textInput.classList.add('input-success')

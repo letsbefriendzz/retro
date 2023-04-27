@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import RetroBoard from "./RetroBoard.vue";
-import RetroBoardHeader from "./RetroBoardHeader.vue";
-import Pusher from "pusher-js";
+import RetroBoard from "./RetroBoard.vue"
+import RetroBoardHeader from "./RetroBoardHeader.vue"
+import Pusher from "pusher-js"
 
 export default {
     name: "RetroBoardParent",
@@ -74,13 +74,13 @@ export default {
     mounted() {
         this.pusher = new Pusher('978e85c5d158cc9b310c', {
             cluster: 'us2'
-        });
+        })
 
-        const channel = this.pusher.subscribe(this.pusherChannelName);
-        channel.bind('retro-note-created', this.noteReceived);
-        channel.bind('retro-note-deleted', this.noteDeleted);
-        channel.bind('column-created', this.columnCreated);
-        channel.bind('column-deleted', this.columnDeleted);
+        const channel = this.pusher.subscribe(this.pusherChannelName)
+        channel.bind('retro-note-created', this.noteReceived)
+        channel.bind('retro-note-deleted', this.noteDeleted)
+        channel.bind('column-created', this.columnCreated)
+        channel.bind('column-deleted', this.columnDeleted)
     },
     beforeDestroy() {
         this.pusher.unsubscribe(this.pusherChannelName)
