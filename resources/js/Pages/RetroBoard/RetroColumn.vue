@@ -1,15 +1,13 @@
 <template>
-    <div class="h-auto flex-grow bg-slate-900 p-5 relative m-3 rounded-2xl">
+    <div class="h-auto flex-grow bg-slate-900 p-5 m-2 relative rounded-2xl">
         <div id="headers" class="container flex items-center mx-auto justify-between flex-wrap">
             <h1 class="mb-6 text-2xl font-bold">{{ this.columnOptions.title }}</h1>
-            <div>
-                <div id="deleteModalContainer">
-                    <ModalButton
-                        label="X"
-                        class-styles="btn btn-ghost hover:bg-error hover:text-black"
-                        @buttonClick="this.deleteModalButtonClicked"
-                    />
-                </div>
+            <div id="deleteModalContainer">
+                <ModalButton
+                    label="X"
+                    class-styles="btn btn-ghost hover:bg-error hover:text-black"
+                    @buttonClick="this.deleteModalButtonClicked"
+                />
             </div>
         </div>
         <div>

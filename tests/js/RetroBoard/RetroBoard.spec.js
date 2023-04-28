@@ -5,7 +5,6 @@ import BinaryModal from '../../../resources/js/Pages/Input/BinaryModal.vue'
 import ModalButton from '../../../resources/js/Pages/Input/ModalButton.vue'
 import axios from 'axios'
 import TextInputModal from "../../../resources/js/Pages/Input/TextInputModal";
-import ModalButton from "../../../resources/js/Pages/Input/ModalButton";
 
 jest.mock('axios')
 

@@ -8,7 +8,7 @@
             @input="preventNewline"
         >
         </textarea>
-        <button @click="newNoteTextClick" class="btn btn-primary mx-3">Submit</button>
+        <button @click="newNoteTextClick" class="btn btn-primary mx-3">+</button>
     </div>
 </template>
 

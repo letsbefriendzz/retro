@@ -17,8 +17,15 @@
                     :placeholder="this.placeholder"
                     class="input input-bordered w-full max-w-xs"
                     @input="this.onTextInput"
+                    @keyup.enter="this.emitButtonClicked"
                 />
-                <label id="submitButton" @click="this.emitButtonClicked" class="btn flex-grow ml-4">{{ this.buttonLabel }}</label>
+                <label
+                    id="submitButton"
+                    @click="this.emitButtonClicked"
+                    class="btn flex-grow ml-4"
+                >
+                    {{ this.buttonLabel }}
+                </label>
             </label>
         </label>
     </label>
@@ -45,7 +52,7 @@ export default {
         placeholder: {
             type: String,
             required: true,
-        }
+        },
     },
     data() {
         return {
