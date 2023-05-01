@@ -5,7 +5,7 @@
             v-model="newNoteText"
             class="resize-none textarea flex-grow"
             @keyup.enter="newNoteTextClick"
-            @input="preventNewline"
+            @input="textInput"
         >
         </textarea>
         <button @click="newNoteTextClick" class="btn btn-primary mx-3">+</button>
@@ -37,8 +37,12 @@ export default {
                 this.addTextareaClass('textarea-error')
             }
         },
-        preventNewline() {
+        textInput() {
             this.newNoteText = this.newNoteText.replace(/[\r\n]+/g, '')
+            if (!this.isNoteTextValid) {
+                this.addTextareaClass('textarea-error')
+            }
+
             if (this.isNoteTextValid && this.textareaHasClass('textarea-error')) {
                 this.removeTextareaClass('textarea-error')
                 this.addTextareaClass('textarea-success')
@@ -60,7 +64,7 @@ export default {
     },
     computed: {
         isNoteTextValid() {
-            return this.newNoteText.length > 0 && this.newNoteText.length < 255
+            return this.newNoteText.length > 0 && this.newNoteText.length < (64 + 16)
         },
         textareaId() {
             return `textarea-${this.columnId}`

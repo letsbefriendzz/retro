@@ -10,8 +10,8 @@
                 />
             </div>
         </div>
-        <div>
-            <div v-for="note in this.localNotes">
+        <div class="flex flex-wrap justify-center">
+            <div v-for="note in this.localNotes" class="mx-1">
                 <RetroNote @noteDeleted="noteDeleted" :note="note"/>
             </div>
         </div>
@@ -23,7 +23,7 @@
 
 <script>
 import NoteTextArea from "../Input/NoteTextArea.vue"
-import ModalButton from "../Input/ModalButton.vue"
+import ModalButton from "../Generics/ModalButton.vue"
 import RetroNote from "./RetroNote.vue"
 import {routes} from "../routes"
 import {throttle} from 'lodash'

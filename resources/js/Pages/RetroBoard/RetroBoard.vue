@@ -15,6 +15,7 @@
                     header="Create New Column"
                     button-label="Create"
                     placeholder="Column Title"
+                    :validation-callback="(title) => !(this.localColumns.map((c) => c.title).includes(title))"
                     @textSubmitted="this.addColumn"
                 />
             </div>
@@ -33,9 +34,9 @@
 </template>
 
 <script>
-import TextInputModal from "../Input/TextInputModal.vue"
-import ModalButton from "../Input/ModalButton.vue"
-import BinaryModal from "../Input/BinaryModal.vue"
+import TextInputModal from "../Generics/TextInputModal.vue"
+import ModalButton from "../Generics/ModalButton.vue"
+import BinaryModal from "../Generics/BinaryModal.vue"
 import RetroColumn from "./RetroColumn.vue"
 import {routes} from "../routes"
 import axios from 'axios'
