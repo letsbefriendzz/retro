@@ -9,10 +9,10 @@
                 <h1 class="text-white mx-3 text-3xl font-semibold">{{ this.slug }}</h1>
             </div>
             <div class="text-xl uppercase flex justify-end items-center w-auto text-center">
-                <div class="mr-2">
-                    <ModalButton label="+" class-styles="btn btn-ghost hover:bg-base-100"/>
-                </div>
                 <div class="avatar" v-if="userNotNull">
+                    <div v-if="slugNotNull" class="mr-2">
+                        <ModalButton label="+" class-styles="btn btn-ghost hover:bg-base-100"/>
+                    </div>
                     <div class="mr-4 w-12 h-12 relative rounded-full">
                         <a :href="user.github_url"><img :src="user.avatar" alt="snickers"/></a>
                     </div>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="avatar" v-if="!userNotNull">
                     <a href="/login/github"
-                       class="mt-4 flex items-center mt-0 text-white hover:text-orange-200">
+                       class="flex items-center mt-0 text-white hover:text-orange-200">
                         login
                     </a>
                 </div>

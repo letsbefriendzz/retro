@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ColumnController;
+use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,4 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::get('/', fn() => 'snickers')->name('home');
+Route::get('/', [HomepageController::class, 'show'])->name('home');
