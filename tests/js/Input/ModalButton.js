@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import ModalButton from '../../../resources/js/Pages/Input/ModalButton.vue'
+import ModalButton from '../../../resources/js/Pages/Generics/ModalButton.vue'
 
 describe('ModalButton', () => {
     let wrapper

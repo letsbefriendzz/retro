@@ -1,19 +1,17 @@
 <template>
-    <div class="h-auto flex-grow bg-slate-900 p-5 relative m-3 rounded-2xl">
+    <div class="h-auto flex-grow bg-slate-900 p-5 m-2 relative rounded-2xl">
         <div id="headers" class="container flex items-center mx-auto justify-between flex-wrap">
             <h1 class="mb-6 text-2xl font-bold">{{ this.columnOptions.title }}</h1>
-            <div>
-                <div id="deleteModalContainer">
-                    <ModalButton
-                        label="X"
-                        class-styles="btn btn-ghost hover:bg-error hover:text-black"
-                        @buttonClick="this.deleteModalButtonClicked"
-                    />
-                </div>
+            <div id="deleteModalContainer">
+                <ModalButton
+                    label="X"
+                    class-styles="btn btn-ghost hover:bg-error hover:text-black"
+                    @buttonClick="this.deleteModalButtonClicked"
+                />
             </div>
         </div>
-        <div>
-            <div v-for="note in this.localNotes">
+        <div class="flex flex-wrap justify-center">
+            <div v-for="note in this.localNotes" class="mx-1">
                 <RetroNote @noteDeleted="noteDeleted" :note="note"/>
             </div>
         </div>
@@ -25,7 +23,7 @@
 
 <script>
 import NoteTextArea from "../Input/NoteTextArea.vue"
-import ModalButton from "../Input/ModalButton.vue"
+import ModalButton from "../Generics/ModalButton.vue"
 import RetroNote from "./RetroNote.vue"
 import {routes} from "../routes"
 import {throttle} from 'lodash'

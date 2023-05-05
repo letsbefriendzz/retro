@@ -2,7 +2,7 @@ import {mount} from '@vue/test-utils'
 import RetroColumn from '../../../resources/js/Pages/RetroBoard/RetroColumn.vue'
 import NoteTextArea from '../../../resources/js/Pages/Input/NoteTextArea.vue'
 import RetroNote from '../../../resources/js/Pages/RetroBoard/RetroNote.vue'
-import ModalButton from '../../../resources/js/Pages/Input/ModalButton.vue'
+import ModalButton from '../../../resources/js/Pages/Generics/ModalButton.vue'
 import axios from 'axios'
 
 jest.mock('axios')

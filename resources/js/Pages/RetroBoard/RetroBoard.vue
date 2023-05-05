@@ -1,21 +1,21 @@
 <template>
-    <div class="flex flex-col h-screen">
-        <div class="flex flex-grow justify-center content-evenly">
-            <ul v-for="column in this.localColumns" class="flex-grow flex justify-center w-1/3 ">
+    <div class="flex flex-col grow">
+        <div class="flex flex-grow justify-center content-evenly items-center">
+            <div v-for="column in this.localColumns" class="flex-grow flex justify-center w-1/3 h-full">
                 <RetroColumn
                     :columnOptions="column"
                     :notes="notesForColumn(column.id)"
                     :session="session"
                     @deleteModalButtonClicked="this.updateDeleteColumnFocus"
                 />
-            </ul>
+            </div>
             <div id="newColumnModalContainer">
-                <ModalButton label="newColumn" class-styles="btn btn-primary"/>
                 <TextInputModal
-                    label="newColumn"
+                    label="+"
                     header="Create New Column"
                     button-label="Create"
                     placeholder="Column Title"
+                    :validation-callback="(title) => !(this.localColumns.map((c) => c.title).includes(title))"
                     @textSubmitted="this.addColumn"
                 />
             </div>
@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import TextInputModal from "../Input/TextInputModal.vue"
-import ModalButton from "../Input/ModalButton.vue"
-import BinaryModal from "../Input/BinaryModal.vue"
+import TextInputModal from "../Generics/TextInputModal.vue"
+import ModalButton from "../Generics/ModalButton.vue"
+import BinaryModal from "../Generics/BinaryModal.vue"
 import RetroColumn from "./RetroColumn.vue"
 import {routes} from "../routes"
 import axios from 'axios'
@@ -83,7 +83,7 @@ export default {
             }
             axios.post(routes.columns.store, newColumn).catch(() => {
                 this.localColumns = this.localColumns.filter((column) => {
-                    return column.title !== event.text // this will remove columns with the same text :/
+                    return column.title !== event.text
                 })
             })
             this.localColumns.push(newColumn)

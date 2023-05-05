@@ -8,13 +8,16 @@
                 <h4 class="text-white mx-3 text-sm font-semibold">Vehikl Retro Board</h4>
                 <h1 class="text-white mx-3 text-3xl font-semibold">{{ this.slug }}</h1>
             </div>
-            <div class="w-full hidden text-xl uppercase lg:flex justify-end lg:items-center lg:w-auto text-center">
+            <div class="text-xl uppercase flex justify-end items-center w-auto text-center">
+                <div class="mr-2">
+                    <ModalButton label="+" class-styles="btn btn-ghost hover:bg-base-100"/>
+                </div>
                 <div class="avatar" v-if="userNotNull">
                     <div class="mr-4 w-12 h-12 relative rounded-full">
                         <a :href="user.github_url"><img :src="user.avatar" alt="snickers"/></a>
                     </div>
                     <a href="/logout"
-                       class="mt-4 flex items-center mt-0 text-white hover:text-orange-200">
+                       class="flex items-center mt-0 text-white hover:text-orange-200">
                         logout
                     </a>
                 </div>
@@ -30,10 +33,14 @@
 </template>
 
 <script>
+import ModalButton from "../Generics/ModalButton.vue";
+
 export default {
     name: "RetroBoardHeader",
     emits: {},
-    components: {},
+    components: {
+        ModalButton
+    },
     props: {
         slug: {
             type: String,

@@ -1,11 +1,10 @@
 import {mount} from '@vue/test-utils'
 import RetroColumn from '../../../resources/js/Pages/RetroBoard/RetroColumn.vue'
 import RetroBoard from '../../../resources/js/Pages/RetroBoard/RetroBoard.vue'
-import BinaryModal from '../../../resources/js/Pages/Input/BinaryModal.vue'
-import ModalButton from '../../../resources/js/Pages/Input/ModalButton.vue'
+import BinaryModal from '../../../resources/js/Pages/Generics/BinaryModal.vue'
+import ModalButton from '../../../resources/js/Pages/Generics/ModalButton.vue'
 import axios from 'axios'
-import TextInputModal from "../../../resources/js/Pages/Input/TextInputModal";
-import ModalButton from "../../../resources/js/Pages/Input/ModalButton";
+import TextInputModal from "../../../resources/js/Pages/Generics/TextInputModal";
 
 jest.mock('axios')
 
@@ -144,6 +143,28 @@ describe('RetroBoard', () => {
             expect(wrapper.vm.localColumns).toContainEqual(
                 expect.objectContaining({title: newColumnName}),
             )
+        })
+
+        it('will not add columns with duplicate titles', async () => {
+            wrapper.setProps({columns: []})
+            wrapper.setData({localColumns: []})
+
+            const duplicateTitle = 'duplicate title'
+            const textInputModal = wrapper.findComponent(TextInputModal)
+            const textInputModalButton = wrapper.findComponent(ModalButton)
+
+            await textInputModalButton.trigger('click')
+            await textInputModal.find('input#titleText').setValue(duplicateTitle)
+            await textInputModal.find('label#submitButton').trigger('click')
+
+            expect(wrapper.vm.localColumns).toHaveLength(1)
+            expect(wrapper.vm.localColumns).toContainEqual(expect.objectContaining({title: duplicateTitle}))
+
+            await textInputModalButton.trigger('click')
+            await textInputModal.find('input#titleText').setValue(duplicateTitle)
+            await textInputModal.find('label#submitButton').trigger('click')
+
+            expect(wrapper.vm.localColumns).toHaveLength(1)
         })
     })
 })

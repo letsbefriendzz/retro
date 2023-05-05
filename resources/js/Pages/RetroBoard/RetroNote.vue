@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-base-100 m-0 p-0 shadow-xl my-2">
+    <div class="card bg-base-100 m-0 p-0 shadow-xl h-36 w-36 rounded-md">
         <div class="bg-primary-focus
                     bg-accent-focus
                     bg-info
@@ -10,12 +10,12 @@
                     bg-error-content"
         >
         </div>
-        <div class="card-body py-1 px-4 flex flex-row">
+        <div class="py-1 px-2">
             <div class="card-title font-light text-base flex-grow">
                 <p>{{ this.localNote.content }}</p>
             </div>
-            <button class="btn btn-ghost hover:bg-error hover:text-black" @click="deleteNote">X</button>
         </div>
+        <button class="btn btn-ghost absolute top-0 right-0 w-8 h-6" @click="deleteNote">X</button>
     </div>
 </template>
 

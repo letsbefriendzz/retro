@@ -1,5 +1,5 @@
 import {shallowMount} from '@vue/test-utils'
-import TextInputModal from '../../../resources/js/Pages/Input/TextInputModal.vue'
+import TextInputModal from '../../../resources/js/Pages/Generics/TextInputModal.vue'
 
 /**
  * TODO -- verify test integrity (GPT-4)
@@ -69,4 +69,43 @@ describe('TextInputModal.vue', () => {
         expect(inputElement.classes()).not.toContain('input-error')
         expect(inputElement.classes()).toContain('input-success')
     })
+
+    it('validates with the validation-callback prop', async () => {
+        wrapper.setProps({validationCallback: () => false})
+
+        const inputElement = wrapper.find('#titleText')
+        await inputElement.setValue('snickers')
+
+        expect(wrapper.vm.isTitleValid()).toBeFalsy()
+    })
+
+    it('makes modal invisible on ESC keyup event', async () => {
+        wrapper.setData({modalVisible: true})
+
+        const modalToggle = wrapper.find('#inputModal')
+        await modalToggle.trigger('keyup.esc')
+
+        expect(wrapper.vm.modalVisible).toBe(false)
+    })
+
+    it('makes the modal invisible on Escape key press', async () => {
+        await wrapper.setData({modalVisible: true})
+
+        expect(wrapper.vm.modalVisible).toBe(true)
+
+        await wrapper.trigger('keyup.esc')
+
+        expect(wrapper.vm.modalVisible).toBe(false)
+    })
+
+    it('does not change modal visibility when pressing other keys', async () => {
+        await wrapper.setData({modalVisible: true})
+
+        expect(wrapper.vm.modalVisible).toBe(true)
+
+        await wrapper.trigger('keydown', {key: 'a'})
+
+        expect(wrapper.vm.modalVisible).toBe(true)
+    })
 })
+

@@ -1,5 +1,5 @@
 import {mount} from '@vue/test-utils'
-import BinaryModal from '../../../resources/js/Pages/Input/BinaryModal.vue'
+import BinaryModal from '../../../resources/js/Pages/Generics/BinaryModal.vue'
 
 describe('BinaryModal.vue', () => {
     let wrapper
@@ -39,5 +39,19 @@ describe('BinaryModal.vue', () => {
         const noButton = wrapper.findAll('.modal-action label').at(1)
         await noButton.trigger('click')
         expect(wrapper.emitted('no')).toBeTruthy()
+    })
+
+    it('makes the modal invisible on Escape key press', async () => {
+        await wrapper.setData({ modalVisible: true })
+        expect(wrapper.vm.modalVisible).toBe(true)
+        await wrapper.trigger('keyup.esc')
+        expect(wrapper.vm.modalVisible).toBe(false)
+    })
+
+    it('does not change modal visibility when pressing other keys', async () => {
+        await wrapper.setData({ modalVisible: true })
+        expect(wrapper.vm.modalVisible).toBe(true)
+        await wrapper.trigger('keyup', { key: 'a' })
+        expect(wrapper.vm.modalVisible).toBe(true)
     })
 })

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="h-screen flex flex-col">
         <RetroBoardHeader
             :slug="session.slug"
             :user="this.user"
@@ -9,7 +9,6 @@
             :notes="this.localNotes"
             :user="this.user"
             :columns="this.localColumns"
-            class="px-6"
         />
     </div>
 </template>
